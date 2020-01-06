@@ -2,6 +2,8 @@ package it.uniupo.spisso.upo_applicazionimobili
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 
 class LoginActivity : AppCompatActivity() {
@@ -17,5 +19,6 @@ class LoginActivity : AppCompatActivity() {
         //to change title of activity
         val actionBar = supportActionBar
         actionBar!!.title = getString(R.string.login_title)
+        actionBar.setDisplayHomeAsUpEnabled(true)
     }
 }
