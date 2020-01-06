@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="NightBackground">#000000</color>
     <color name="DayBackground">#FFFFFF</color>
+    <color name="DayForeground">#000000</color>
+    <color name="NightForeground">#FFFFFF</color>
+    <color name="Gray">#C4C4C4</color>
 </resources>

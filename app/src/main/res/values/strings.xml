@@ -5,4 +5,12 @@
     <string name="password_hint">Password</string>
     <string name="or">Don\'t have an account yet?</string>
     <string name="signup">Signup</string>
+    <string name="menu_home">Cerca</string>
+    <string name="menu_saved">Saved</string>
+    <string name="menu_add">Publish</string>
+    <string name="menu_messages">Messages</string>
+    <string name="menu_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

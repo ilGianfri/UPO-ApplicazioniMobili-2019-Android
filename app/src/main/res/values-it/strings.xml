@@ -6,4 +6,9 @@
     <string name="password_hint">Password</string>
     <string name="or">Non hai ancora un account?</string>
     <string name="signup">Registrati</string>
+    <string name="menu_home">Cerca</string>
+    <string name="menu_saved">Salvati</string>
+    <string name="menu_add">Pubblica</string>
+    <string name="menu_messages">Messaggi</string>
+    <string name="menu_profile">Profilo</string>
 </resources>
