@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">UPO-ApplicazioniMobili</string>
+    <string name="login_title">LOGIN</string>
+    <string name="username_hint">Username (email)</string>
+    <string name="password_hint">Password</string>
+    <string name="or">Don\'t have an account yet?</string>
+    <string name="signup">Signup</string>
 </resources>
