@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">UPO-ApplicazioniMobili</string>
+    <string name="app_name">LendIt</string>
     <string name="login_title">ACCEDI</string>
     <string name="username_hint">Nome utente (email)</string>
     <string name="password_hint">Password</string>
@@ -12,4 +12,6 @@
     <string name="menu_messages">Messaggi</string>
     <string name="menu_profile">Profilo</string>
     <string name="search_hint">Cerca</string>
+    <string name="authentication_failed_message">Le credenziali fornite non hanno funzionato. Per favore riprova.</string>
+    <string name="unsecure_password_error">La password deve contenere almeno 6 caratteri</string>
 </resources>

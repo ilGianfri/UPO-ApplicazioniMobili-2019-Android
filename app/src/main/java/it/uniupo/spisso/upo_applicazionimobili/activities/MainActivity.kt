@@ -1,11 +1,14 @@
 package it.uniupo.spisso.upo_applicazionimobili.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
+import it.uniupo.spisso.upo_applicazionimobili.activities.login.*
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,33 +32,45 @@ class MainActivity : AppCompatActivity() {
         {
 
             R.id.action_menu_home -> {
-                val firstFragment = SearchFragment()
-                openFragment(firstFragment)
+                val homeFragment = SearchFragment()
+                openFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.action_menu_saved -> {
-                val secondFragment = SavedFragment()
-                openFragment(secondFragment)
+                val savedFragment = SavedFragment()
+                openFragment(savedFragment)
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.action_menu_add -> {
-                val thirdFragment = PublishFragment()
-                openFragment(thirdFragment)
+                val publishFragment = PublishFragment()
+                openFragment(publishFragment)
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.action_menu_messages -> {
-                val thirdFragment = MessagesFragment()
-                openFragment(thirdFragment)
+                val messagesFragment = MessagesFragment()
+                openFragment(messagesFragment)
                 return@OnNavigationItemSelectedListener true
             }
 
-            R.id.action_menu_profile -> {
-                val thirdFragment = ProfileFragment()
-                openFragment(thirdFragment)
-                return@OnNavigationItemSelectedListener true
+            R.id.action_menu_profile ->
+            {
+                val auth = FirebaseAuth.getInstance()
+                //If the user is logged-in already, navigate to its profile page
+                if (auth.currentUser != null)
+                {
+                    val profileFragment = ProfileFragment()
+                    openFragment(profileFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                else //Otherwise show login/signup
+                {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
         false
@@ -65,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
+        //transaction.addToBackStack(null)
         transaction.commit()
     }
 

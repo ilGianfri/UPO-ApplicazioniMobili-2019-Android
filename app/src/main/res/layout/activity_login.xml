@@ -24,6 +24,7 @@
         android:layout_below="@id/logo"
         android:hint="@string/username_hint"
         app:hintEnabled="true"
+        app:endIconMode="clear_text"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_centerHorizontal="true"
@@ -66,7 +67,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/login_title"/>
+        android:text="@string/login_title"
+        android:onClick="loginClick"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,6 +87,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
+        android:onClick="signupClick"
         android:text="@string/signup"/>
 
 </RelativeLayout>
