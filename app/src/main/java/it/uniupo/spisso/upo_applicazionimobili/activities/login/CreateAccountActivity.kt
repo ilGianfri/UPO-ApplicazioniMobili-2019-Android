@@ -30,22 +30,23 @@ class CreateAccountActivity : AppCompatActivity()
         }
 
         auth.createUserWithEmailAndPassword(usernameBox.text.toString(), passwordBox.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful)
-                {
+            .addOnSuccessListener (this) {
+                //                if (task.isSuccessful)
+//                {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                }
-                else
-                {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(baseContext, R.string.authentication_failed_message,
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
+//                }
+//                else
+//                {
+//                    // If sign in fails, display a message to the user.
+//                    Toast.makeText(baseContext, R.string.authentication_failed_message,
+//                        Toast.LENGTH_SHORT).show()
+//                }
+            }.addOnFailureListener { exception -> Toast.makeText(baseContext, exception.localizedMessage,
+                Toast.LENGTH_SHORT).show() }
     }
 }

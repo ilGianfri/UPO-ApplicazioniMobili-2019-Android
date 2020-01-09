@@ -14,4 +14,11 @@
     <string name="search_hint">Cerca</string>
     <string name="authentication_failed_message">Le credenziali fornite non hanno funzionato. Per favore riprova.</string>
     <string name="unsecure_password_error">La password deve contenere almeno 6 caratteri</string>
+    <string name="publish_title">Inserisci nuovo annuncio</string>
+    <string name="ad_title">Titolo dell\'annuncio</string>
+    <string name="ad_description">Descrizione</string>
+    <string name="back_button_publish">Annulla</string>
+    <string name="publish_publish_btn">Pubblica</string>
+    <string name="publish_categories_header">Categorie</string>
+    <string name="credentials_empty">Le credenziali non possono essere vuote</string>
 </resources>

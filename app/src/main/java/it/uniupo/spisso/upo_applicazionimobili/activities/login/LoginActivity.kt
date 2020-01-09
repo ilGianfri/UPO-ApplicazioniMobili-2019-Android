@@ -3,13 +3,13 @@ package it.uniupo.spisso.upo_applicazionimobili.activities.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import it.uniupo.spisso.upo_applicazionimobili.R
 import kotlinx.android.synthetic.main.activity_login.*
+import it.uniupo.spisso.upo_applicazionimobili.activities.*
 
 class LoginActivity : AppCompatActivity()
 {
@@ -31,32 +31,25 @@ class LoginActivity : AppCompatActivity()
 
     }
 
-    public override fun onStart()
-    {
-        super.onStart()
-        val currentUser = auth.currentUser
-        //TODO
-        //updateUI(currentUser)
-    }
-
     fun loginClick(v: View?)
     {
+        if (usernameBox.text.toString() == "" && passwordBox.text.toString() == "")
+        {
+            Toast.makeText(baseContext, getString(R.string.credentials_empty),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
         auth.signInWithEmailAndPassword(usernameBox.text.toString(), passwordBox.text.toString())
-            .addOnCompleteListener(this)
-            { task ->
-                if (task.isSuccessful)
-                {
-                    // Sign in success, update UI with the signed-in user's information
+            .addOnSuccessListener (this)
+            {
+                    // Sign in success
                     val user = auth.currentUser
-//                    updateUI(user)
-                }
-                else
-                {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(baseContext, R.string.authentication_failed_message,
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+            }.addOnFailureListener { exception -> Toast.makeText(baseContext, exception.localizedMessage,
+                Toast.LENGTH_SHORT).show() }
     }
 
     fun signupClick(v: View?)
