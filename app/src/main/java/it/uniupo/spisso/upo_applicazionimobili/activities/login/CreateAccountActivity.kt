@@ -31,21 +31,12 @@ class CreateAccountActivity : AppCompatActivity()
 
         auth.createUserWithEmailAndPassword(usernameBox.text.toString(), passwordBox.text.toString())
             .addOnSuccessListener (this) {
-                //                if (task.isSuccessful)
-//                {
-                    // Sign in success, update UI with the signed-in user's information
+                    // Sign in success
                     val user = auth.currentUser
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-//                }
-//                else
-//                {
-//                    // If sign in fails, display a message to the user.
-//                    Toast.makeText(baseContext, R.string.authentication_failed_message,
-//                        Toast.LENGTH_SHORT).show()
-//                }
             }.addOnFailureListener { exception -> Toast.makeText(baseContext, exception.localizedMessage,
                 Toast.LENGTH_SHORT).show() }
     }

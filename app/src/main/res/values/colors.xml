@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008aff</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#057ce1</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#008aff</color>
     <color name="NightBackground">#000000</color>
     <color name="DayBackground">#FFFFFF</color>
     <color name="DayForeground">#000000</color>

@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_menu_add -> {
                 val publishFragment = PublishFragment()
-                openFragment(publishFragment)
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, publishFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
 
