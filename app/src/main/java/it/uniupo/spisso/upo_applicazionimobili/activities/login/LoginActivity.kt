@@ -24,11 +24,16 @@ class LoginActivity : AppCompatActivity()
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
 
-        //to change title of activity
+        //Set activity title and enable back button
         val actionBar = supportActionBar
         actionBar?.title = getString(R.string.login_title)
         actionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
+    override fun onSupportNavigateUp(): Boolean
+    {
+        this?.onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     fun loginClick(v: View?)

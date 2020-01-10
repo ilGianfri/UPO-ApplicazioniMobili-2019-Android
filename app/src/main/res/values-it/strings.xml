@@ -21,4 +21,6 @@
     <string name="publish_publish_btn">Pubblica</string>
     <string name="publish_categories_header">Categorie</string>
     <string name="credentials_empty">Le credenziali non possono essere vuote</string>
+    <string name="login_required_post">Devi effettuare l\'accesso per postare un nuovo annuncio</string>
+    <string name="posted_by_text">"Pubblicato da "</string>
 </resources>

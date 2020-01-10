@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -12,8 +13,8 @@
         android:hint="@string/search_hint"
         app:hintEnabled="true"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_centerHorizontal="true"
         app:endIconMode="custom"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -24,5 +25,24 @@
             android:layout_height="wrap_content"
             android:inputType="textAutoCorrect" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ListView
+        android:layout_below="@id/usernameBoxLayout"
+        android:id="@+id/posts_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:smoothScrollbar="true"
+        android:layout_marginTop="10dp"/>
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="end|bottom"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:src="@drawable/icon_my_location"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        app:elevation="20dp"/>-->
 
 </RelativeLayout>

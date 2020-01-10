@@ -1,5 +1,6 @@
 package it.uniupo.spisso.upo_applicazionimobili.models
 
+import java.time.LocalDateTime
 import java.util.*
 
 data class PostModel(val id: String)
@@ -13,5 +14,7 @@ data class PostModel(val id: String)
     val locationLat: Double = 0.0
     var locationLong: Double = 0.0
     lateinit var postedOn: Date
-    var price: Double = 0.0
+    var price: Long = 0
+    lateinit var locationName: String
+    lateinit var userSelectedDisplayName : String
 }
