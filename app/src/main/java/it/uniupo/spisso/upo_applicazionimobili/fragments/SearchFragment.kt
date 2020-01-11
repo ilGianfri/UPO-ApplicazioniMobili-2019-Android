@@ -17,13 +17,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment that contains the homepage of the app
  */
 class SearchFragment : Fragment()
 {
     val db = FirebaseFirestore.getInstance()
     var postsList : ListView? = null
     var posts : ArrayList<PostModel> = ArrayList()
+    var dbName : String = "available_items"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -45,11 +46,11 @@ class SearchFragment : Fragment()
         return view
     }
 
-    private fun populatePostsList(postsloaded : PostsCallback)
+    private fun populatePostsList(postsLoaded : PostsCallback)
     {
         val posts = arrayListOf<PostModel>()
 
-        db.collection("available_items").get().addOnCompleteListener { task ->
+        db.collection(dbName).get().addOnCompleteListener { task ->
             if (task.isSuccessful)
             {
                 for (item in task.result!!.documents) {
@@ -63,7 +64,7 @@ class SearchFragment : Fragment()
                     //TODO
                     posts.add(model)
                 }
-                postsloaded.onCallback(posts)
+                postsLoaded.onCallback(posts)
             }
         }.addOnFailureListener {  exception ->
             Toast.makeText(activity?.baseContext, exception.localizedMessage,

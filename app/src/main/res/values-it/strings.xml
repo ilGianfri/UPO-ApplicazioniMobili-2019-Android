@@ -23,4 +23,6 @@
     <string name="credentials_empty">Le credenziali non possono essere vuote</string>
     <string name="login_required_post">Devi effettuare l\'accesso per postare un nuovo annuncio</string>
     <string name="posted_by_text">"Pubblicato da "</string>
+    <string name="upload_select_category">Seleziona una categoria</string>
+    <string name="publish_select_upload_image">Scegli e carica immagine</string>
 </resources>

@@ -26,4 +26,6 @@
     <string name="credentials_empty">Credentials cannot be empy</string>
     <string name="login_required_post">You must be signed in to post a new ad</string>
     <string name="posted_by_text">Posted by</string>
+    <string name="upload_select_category">Select a category</string>
+    <string name="publish_select_upload_image">Choose and upload image</string>
 </resources>

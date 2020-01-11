@@ -75,6 +75,22 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="15dp"
                 android:prompt="@string/publish_categories_header"/>
+
+            <ImageView
+                android:layout_below="@id/categories"
+                android:id="@+id/image_preview"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_choose_image"
+                android:layout_below="@id/image_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:onClick="uploadImageClick"
+                android:text="@string/publish_select_upload_image" />
         </RelativeLayout>
      </ScrollView>
 
