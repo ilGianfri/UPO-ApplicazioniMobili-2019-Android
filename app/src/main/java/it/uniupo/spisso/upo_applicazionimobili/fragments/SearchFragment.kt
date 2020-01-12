@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,29 +22,39 @@ import kotlin.collections.ArrayList
  */
 class SearchFragment : Fragment()
 {
-    val db = FirebaseFirestore.getInstance()
-    var postsList : ListView? = null
-    var posts : ArrayList<PostModel> = ArrayList()
-    var dbName : String = "available_items"
+    private val db = FirebaseFirestore.getInstance()
+    private var postsList : ListView? = null
+    private var posts : ArrayList<PostModel> = ArrayList()
+    private var dbName : String = "available_items"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_search, container, false)
 
-        postsList = view.findViewById<ListView>(R.id.posts_list)
+        postsList = view.findViewById(R.id.posts_list)
 
         populatePostsList(object : PostsCallback {
             override fun onCallback(value: ArrayList<PostModel>)
             {
-                posts = value
-                val postsAdapter = MainPostAdapter(requireContext(), posts)
-                postsList?.adapter = postsAdapter
+                try {
+                    posts = value
+                    val postsAdapter = MainPostAdapter(requireContext(), posts)
+                    postsList?.adapter = postsAdapter
+                }
+                catch (e: Exception){}
+
             }
         })
 
-
         return view
+    }
+
+
+    override fun onDetach()
+    {
+        super.onDetach()
+
     }
 
     private fun populatePostsList(postsLoaded : PostsCallback)

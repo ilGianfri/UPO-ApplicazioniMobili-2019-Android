@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008aff</color>
-    <color name="colorOnPrimary">#000000</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#057ce1</color>
     <color name="colorAccent">#008aff</color>
 <!--    <color name="NightBackground">#000000</color>-->
@@ -10,8 +10,8 @@
 <!--    <color name="NightForeground">#FFFFFF</color>-->
     <color name="Gray">#C4C4C4</color>
 
-    <color name="textPrimary">#000000</color>
-    <color name="textSecondary">#555555</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textSecondary">#CCCCCC</color>
     <color name="selectedNavigationItem">#FFFFFF</color>
-    <color name="background">#FFFFFF</color>
+    <color name="background">#000000</color>
 </resources>

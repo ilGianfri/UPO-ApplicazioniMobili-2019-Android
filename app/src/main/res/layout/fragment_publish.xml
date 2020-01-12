@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.PublishFragment"
+    android:windowSoftInputMode="adjustNothing"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
     <TextView
@@ -12,9 +13,12 @@
         android:layout_height="wrap_content"
         android:text="@string/publish_title"
         android:id="@+id/title"
-        android:textSize="20dp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_margin="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
 
     <ScrollView
         android:id="@+id/scroll"
@@ -29,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/ad_title"
                 app:hintEnabled="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_centerHorizontal="true"
@@ -89,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:onClick="uploadImageClick"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="@string/publish_select_upload_image" />
         </RelativeLayout>
      </ScrollView>

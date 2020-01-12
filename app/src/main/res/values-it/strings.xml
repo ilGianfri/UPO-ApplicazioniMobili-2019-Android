@@ -25,4 +25,5 @@
     <string name="posted_by_text">"Pubblicato da "</string>
     <string name="upload_select_category">Seleziona una categoria</string>
     <string name="publish_select_upload_image">Scegli e carica immagine</string>
+    <string name="storage_permission_needed">L\'applicazione ha bisogno di accedere allo storage per poter caricare un\'immagine. Perfavore consenti l\'accesso.</string>
 </resources>

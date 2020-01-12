@@ -7,7 +7,7 @@
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/usernameBoxLayout"
+        android:id="@+id/searchBoxLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_hint"
@@ -20,14 +20,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/usernameBox"
+            android:id="@+id/searchBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textAutoCorrect" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
-        android:layout_below="@id/usernameBoxLayout"
+        android:layout_below="@id/searchBoxLayout"
         android:id="@+id/posts_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

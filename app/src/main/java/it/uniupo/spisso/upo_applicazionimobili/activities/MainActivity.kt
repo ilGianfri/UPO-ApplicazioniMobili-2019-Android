@@ -1,17 +1,24 @@
 package it.uniupo.spisso.upo_applicazionimobili.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import it.uniupo.spisso.upo_applicazionimobili.R
-import it.uniupo.spisso.upo_applicazionimobili.fragments.*
-import it.uniupo.spisso.upo_applicazionimobili.activities.login.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import it.uniupo.spisso.upo_applicazionimobili.R
+import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
+import it.uniupo.spisso.upo_applicazionimobili.fragments.*
+import kotlinx.android.synthetic.main.fragment_search.*
+
 
 class MainActivity : AppCompatActivity() {
+
+    private var bottomNavigation: BottomNavigationView? = null
+    private var screenHeight = 0
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -21,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.hide()
 
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
+        bottomNavigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val firstFragment = SearchFragment()
         openFragment(firstFragment)
