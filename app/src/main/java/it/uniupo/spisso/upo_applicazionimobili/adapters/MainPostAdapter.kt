@@ -1,6 +1,9 @@
 package it.uniupo.spisso.upo_applicazionimobili.adapters
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.net.URL
 import java.text.SimpleDateFormat
+import java.util.concurrent.Executors
 
 
 class MainPostAdapter(private val context: Context, private val posts: ArrayList<PostModel>) : BaseAdapter()
@@ -30,14 +37,22 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
             var postedOnView = toreturnView.findViewById<TextView>(R.id.post_published_on)
             //var postedByView = toreturnView.findViewById<TextView>(R.id.post_postedby)
 
-            //imageView.setImageResource()
+            doAsync {
+                val url = URL(posts[position].imageUri)
+                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                uiThread {
+                    imageView.setImageBitmap(bmp)
+                }
+            }
+
             titleView.text =  posts[position].title
             locationView.text = posts[position].locationName
             priceView.text = posts[position].price.toString() + "€"
             //postedByView.text = context.getString(R.string.posted_by_text) + " " + posts[position].userSelectedDisplayName
 
-            val format = SimpleDateFormat("dd/MM")
-            postedOnView.text = format.format(posts[position].postedOn)
+            val parser = SimpleDateFormat("yyyyMMdd_HHmmss")
+            val formatter = SimpleDateFormat("dd/MM")
+            postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
         }
         else
             toreturnView = convertView

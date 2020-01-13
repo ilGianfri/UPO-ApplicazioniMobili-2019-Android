@@ -70,9 +70,9 @@ class SearchFragment : Fragment()
                     model.description = item.get("Description") as String
                     model.locationName = item.get("LocationName") as String
                     model.price = item.get("Price") as Long
-                    model.postedOn = item.get("PostedOn") as Date
+                    model.postedOn = item.get("PostedOn") as String
                     model.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
-                    //TODO
+                    model.imageUri = item.get("ImageUri") as String
                     posts.add(model)
                 }
                 postsLoaded.onCallback(posts)

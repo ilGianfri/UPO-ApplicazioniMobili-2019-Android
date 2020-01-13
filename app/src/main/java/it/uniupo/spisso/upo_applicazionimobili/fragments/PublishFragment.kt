@@ -3,30 +3,28 @@ package it.uniupo.spisso.upo_applicazionimobili.fragments
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
-import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
-
-import it.uniupo.spisso.upo_applicazionimobili.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
+import it.uniupo.spisso.upo_applicazionimobili.R
 import kotlinx.android.synthetic.main.fragment_publish.*
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -37,9 +35,12 @@ class PublishFragment : Fragment()
 {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
+    private val auth = FirebaseAuth.getInstance()
     private var categoriesList : ArrayList<String> = ArrayList()
     private val PICK_IMAGE_REQUEST = 71
-    private val PERMISSION_CODE = 1001;
+    private val PERMISSION_CODE = 1001
+    private var imagePath: Uri? = null
+    private var selectedCategory: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -48,6 +49,13 @@ class PublishFragment : Fragment()
 
 
         val categoriesSpinner = view.findViewById<Spinner>(R.id.categories)
+        categoriesSpinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedCategory = position
+            }
+        }
 
         loadCategories(Locale.getDefault().language, object : CategoriesCallback
         {
@@ -60,7 +68,7 @@ class PublishFragment : Fragment()
             }
         })
 
-        //Handle upload button click and check and request permission
+            //Handle upload button click and check and request permission
         val buttonChooseImage = view.findViewById<Button>(R.id.btn_choose_image)
         buttonChooseImage.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -76,6 +84,11 @@ class PublishFragment : Fragment()
                     selectGalleryImage()
             }
             else selectGalleryImage()
+        }
+
+        val publishButton = view.findViewById<Button>(R.id.publishButton)
+        publishButton.setOnClickListener { view ->
+            publishClick()
         }
 
         return view
@@ -119,8 +132,39 @@ class PublishFragment : Fragment()
         activity?.onBackPressed()
     }
 
+    private fun publishClick()
+    {
+        uploadImage(imagePath, object : ImageUploadedCallback
+        {
+            override fun onCallback(value: Uri?)
+            {
+                val data = hashMapOf(
+                    "UserId" to auth.currentUser?.uid.toString(),
+                    "Title" to titleBox.text.toString(),
+                    "Description" to descriptionBox.text.toString(),
+                    "Category" to categoriesList[selectedCategory],
+                    "LocationName" to addressText.text.toString(),
+                    "Price" to priceText.text.toString().toLong(),
+                    "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
+                    "UserSelectedDisplayName" to displayedName.text.toString(),
+                    "ImageUri" to value.toString()
+                )
+
+                db.collection("available_items").document(UUID.randomUUID().toString())
+                    .set(data as Map<String, Any>)
+                    .addOnSuccessListener {
+                        uploadCompleteDialog()
+                        activity?.onBackPressed()
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT).show()
+                    }
+            }
+        })
+    }
+
     /**
-     * Launched "gallery" activity to let the user select an image
+     * Launches "gallery" activity to let the user select an image
      */
     private fun selectGalleryImage()
     {
@@ -145,16 +189,15 @@ class PublishFragment : Fragment()
 
             try
             {
-                val path = data?.data
-                if (path != null)
+                imagePath = data?.data
+                if (imagePath != null)
                 {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, path)
+                    val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imagePath)
                     //TODO Show preview here
-                    uploadImage(path)
-
                 }
             }
-            catch (e: IOException) {
+            catch (e: IOException)
+            {
 
             }
         }
@@ -182,41 +225,83 @@ class PublishFragment : Fragment()
 
     /**
      * Uploads the selected image and returns its ID
+     *
+     * Each image has a random ID that is saved to the DB
      */
-    private fun uploadImage(filePath: Uri)
+    private fun uploadImage(filePath: Uri?, imageUploaded : ImageUploadedCallback) : Uri?
     {
+        //If no path was given, ends here
         if (filePath == null)
-            return
+            return null
 
-        var storageRef = storage.reference
-        val imgId = UUID.randomUUID().toString()
-        val fileRef = storageRef.child(imgId)
-        val pathRef = storageRef.child("uploaded_images/${imgId}")
+        btn_choose_image.isEnabled = false
 
-        val uploadTask = storageRef?.putFile(filePath!!)
+        var imagePath : Uri? = null
 
-        val urlTask = uploadTask.continueWithTask { task ->
+        //Generate the path that includes a random ID for the image
+        val pathRef = storage.reference.child("uploaded_images/${UUID.randomUUID()}")
+
+        //Upload from given image path
+        val uploadTask = pathRef?.putFile(filePath)
+
+        //Gestione del task per l'upload
+        uploadTask.continueWithTask { task ->
             if (!task.isSuccessful)
             {
                 task.exception?.let {
                     throw it
                 }
+                btn_choose_image.isEnabled = true
             }
             pathRef.downloadUrl
         }.addOnCompleteListener { task ->
+            //Il result del task è l'url dell'immagine
             if (task.isSuccessful)
             {
-                val downloadUri = task.result
+                imagePath = task.result
+                //TODO
+                //uploadCompleteDialog()
+                imageUploaded.onCallback(imagePath)
             }
-            else
-            {
-                // Handle failures
-                // ...
+            else {
+                btn_choose_image.isEnabled = false
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.image_upload_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
+        return imagePath
+    }
+
+    /**
+     * Shows an animation once a post has been successfully uploaded
+     */
+    private fun uploadCompleteDialog()
+    {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.upload_dialog_layout)
+        dialog.show()
+        dialog.window?.setLayout(600, 600);
+
+        Handler().postDelayed({ dialog.dismiss() }, 3000)
     }
 }
 
+/**
+ * Interface to implement the callback once categories are loaded
+ */
 interface CategoriesCallback {
     fun onCallback(value: ArrayList<String>)
+}
+
+/**
+ * Interface to implement the callback once the image has been uploaded
+ */
+interface ImageUploadedCallback {
+    fun onCallback(value: Uri?)
 }
