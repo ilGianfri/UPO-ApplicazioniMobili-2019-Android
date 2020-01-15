@@ -50,6 +50,9 @@ class SearchFragment : Fragment()
         return view
     }
 
+    /**
+     * Loads all the posts from the db
+     */
     private fun populatePostsList(postsLoaded : PostsCallback)
     {
         val posts = arrayListOf<PostModel>()
@@ -78,6 +81,9 @@ class SearchFragment : Fragment()
     }
 }
 
+/**
+ * Callback used to know when all posts have been loaded
+ */
 interface PostsCallback {
     fun onCallback(value: ArrayList<PostModel>)
 }

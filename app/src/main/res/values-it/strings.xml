@@ -30,4 +30,5 @@
     <string name="name_display">Nome da mostrare pubblicamente</string>
     <string name="upload_address">Città</string>
     <string name="publish_price">Prezzo (anche 0)</string>
+    <string name="password_requirements">La password deve contenere almeno una lettera minuscola, una lettera maiuscola, un numero e un simbolo</string>
 </resources>
