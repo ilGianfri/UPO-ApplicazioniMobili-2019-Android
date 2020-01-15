@@ -41,17 +41,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/post_price"
-                android:layout_below="@id/post_location"
-                android:textSize="12sp"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+<!--            <TextView-->
+<!--                android:id="@+id/post_price"-->
+<!--                android:layout_below="@id/post_location"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
 
             <TextView
                 android:id="@+id/post_published_on"
-                android:layout_below="@id/post_price"
+                android:layout_below="@id/post_title"
                 android:textSize="12sp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"

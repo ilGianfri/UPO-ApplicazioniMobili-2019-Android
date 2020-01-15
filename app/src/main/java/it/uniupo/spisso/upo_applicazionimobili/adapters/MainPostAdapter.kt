@@ -33,7 +33,9 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
             val imageView = toreturnView.findViewById<ImageView>(R.id.post_image)
             val titleView = toreturnView.findViewById<TextView>(R.id.post_title)
             var locationView = toreturnView.findViewById<TextView>(R.id.post_location)
-            var priceView = toreturnView.findViewById<TextView>(R.id.post_price)
+
+//            var priceView = toreturnView.findViewById<TextView>(R.id.post_price)
+
             var postedOnView = toreturnView.findViewById<TextView>(R.id.post_published_on)
             //var postedByView = toreturnView.findViewById<TextView>(R.id.post_postedby)
 
@@ -47,7 +49,8 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
 
             titleView.text =  posts[position].title
             locationView.text = posts[position].locationName
-            priceView.text = posts[position].price.toString() + "€"
+//            priceView.text = posts[position].price.toString() + "€"
+
             //postedByView.text = context.getString(R.string.posted_by_text) + " " + posts[position].userSelectedDisplayName
 
             val parser = SimpleDateFormat("yyyyMMdd_HHmmss")
