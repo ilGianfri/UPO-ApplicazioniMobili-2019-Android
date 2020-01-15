@@ -47,7 +47,6 @@ class PublishFragment : Fragment()
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_publish, container, false)
 
-
         val categoriesSpinner = view.findViewById<Spinner>(R.id.categories)
         categoriesSpinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -68,7 +67,7 @@ class PublishFragment : Fragment()
             }
         })
 
-            //Handle upload button click and check and request permission
+        //Handle upload button click and check and request permission
         val buttonChooseImage = view.findViewById<Button>(R.id.btn_choose_image)
         buttonChooseImage.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -91,13 +90,19 @@ class PublishFragment : Fragment()
             publishClick()
         }
 
+        cancel.setOnClickListener{cancelButtonClick()}
+
         return view
     }
 
+    /**
+     * Loads categories for the spinner to display
+     */
     private fun loadCategories(locale: String, categoriesLoaded : CategoriesCallback)
     {
         val categories = arrayListOf<String>()
 
+        //Based on locale, loads different categories
         val dbName : String = if (locale == "it")
             "categories_it"
         else
@@ -120,18 +125,17 @@ class PublishFragment : Fragment()
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-
-        Locale.getDefault().language //en/it
-    }
-
-    private fun cancelButtonClick(v: View?)
+    /**
+     * Handles cancel button click
+     */
+    private fun cancelButtonClick()
     {
         activity?.onBackPressed()
     }
 
+    /**
+     * Handles publish button click
+     */
     private fun publishClick()
     {
         uploadImage(imagePath, object : ImageUploadedCallback
@@ -244,7 +248,7 @@ class PublishFragment : Fragment()
         //Upload from given image path
         val uploadTask = pathRef?.putFile(filePath)
 
-        //Gestione del task per l'upload
+        //Handling of the upload task
         uploadTask.continueWithTask { task ->
             if (!task.isSuccessful)
             {
@@ -255,12 +259,10 @@ class PublishFragment : Fragment()
             }
             pathRef.downloadUrl
         }.addOnCompleteListener { task ->
-            //Il result del task è l'url dell'immagine
+            //Task returns the image url
             if (task.isSuccessful)
             {
                 imagePath = task.result
-                //TODO
-                //uploadCompleteDialog()
                 imageUploaded.onCallback(imagePath)
             }
             else {

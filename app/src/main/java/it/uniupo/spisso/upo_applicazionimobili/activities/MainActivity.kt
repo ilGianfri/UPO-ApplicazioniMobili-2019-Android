@@ -1,24 +1,17 @@
 package it.uniupo.spisso.upo_applicazionimobili.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import it.uniupo.spisso.upo_applicazionimobili.R
-import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
-import kotlinx.android.synthetic.main.fragment_search.*
-
 
 class MainActivity : AppCompatActivity() {
 
     private var bottomNavigation: BottomNavigationView? = null
-    private var screenHeight = 0
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -35,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         openFragment(firstFragment)
     }
 
+    /**
+     * Handle bottom navigation buttons
+     */
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId)
         {
@@ -80,19 +76,9 @@ class MainActivity : AppCompatActivity() {
             //Profile
             R.id.action_menu_profile ->
             {
-                val auth = FirebaseAuth.getInstance()
-                //If the user is logged-in already, navigate to its profile page
-                if (auth.currentUser != null)
-                {
-                    val profileFragment = ProfileFragment()
-                    openFragment(profileFragment)
-                    return@OnNavigationItemSelectedListener true
-                }
-                else //Otherwise show login/signup
-                {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                }
+                val profileFragment = ProfileFragment()
+                openFragment(profileFragment)
+                return@OnNavigationItemSelectedListener true
             }
         }
         false

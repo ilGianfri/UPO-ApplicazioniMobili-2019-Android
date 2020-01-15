@@ -67,8 +67,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/login_title"
-        android:onClick="loginClick"/>
+        android:text="@string/login_title" />
 
     <TextView
         android:layout_width="wrap_content"

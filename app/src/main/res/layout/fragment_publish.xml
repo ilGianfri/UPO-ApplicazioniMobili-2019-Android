@@ -179,7 +179,6 @@
             android:layout_weight="0.5"
             android:layout_margin="5dp"
             android:textColor="@color/colorAccent"
-            android:onClick="cancelButtonClick"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/back_button_publish"/>
 

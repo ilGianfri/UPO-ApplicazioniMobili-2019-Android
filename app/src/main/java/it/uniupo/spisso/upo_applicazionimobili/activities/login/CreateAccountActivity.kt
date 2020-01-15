@@ -44,15 +44,13 @@ class CreateAccountActivity : AppCompatActivity()
             }
         })
 
-
-
         signup_button.setOnClickListener{signupClick()}
     }
 
     /**
      * Handles the signup click button
      */
-    fun signupClick()
+    private fun signupClick()
     {
         if (passwordBox.text.toString().length < 6)
         {
@@ -82,7 +80,7 @@ class CreateAccountActivity : AppCompatActivity()
      * - Must contain at least an uppercase letter
      * - Must contain at least a special character
      */
-    fun isValidPassword(password: String?): Boolean
+    private fun isValidPassword(password: String?): Boolean
     {
         val pattern: Pattern
         val matcher: Matcher

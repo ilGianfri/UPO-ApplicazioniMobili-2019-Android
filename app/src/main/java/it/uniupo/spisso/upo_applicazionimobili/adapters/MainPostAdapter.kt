@@ -1,9 +1,7 @@
 package it.uniupo.spisso.upo_applicazionimobili.adapters
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,28 +14,27 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.util.concurrent.Executors
 
 
 class MainPostAdapter(private val context: Context, private val posts: ArrayList<PostModel>) : BaseAdapter()
 {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
     {
-        var toreturnView: View
+        var toReturnView: View
 
         if (convertView == null)
         {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            toreturnView = inflater.inflate(R.layout.postitem_layout, null, true)
+            toReturnView = inflater.inflate(R.layout.postitem_layout, null, true)
 
-            val imageView = toreturnView.findViewById<ImageView>(R.id.post_image)
-            val titleView = toreturnView.findViewById<TextView>(R.id.post_title)
-            var locationView = toreturnView.findViewById<TextView>(R.id.post_location)
+            val imageView = toReturnView.findViewById<ImageView>(R.id.post_image)
+            val titleView = toReturnView.findViewById<TextView>(R.id.post_title)
+            var locationView = toReturnView.findViewById<TextView>(R.id.post_location)
 
-//            var priceView = toreturnView.findViewById<TextView>(R.id.post_price)
+//            var priceView = toReturnView.findViewById<TextView>(R.id.post_price)
 
-            var postedOnView = toreturnView.findViewById<TextView>(R.id.post_published_on)
-            //var postedByView = toreturnView.findViewById<TextView>(R.id.post_postedby)
+            var postedOnView = toReturnView.findViewById<TextView>(R.id.post_published_on)
+            //var postedByView = toReturnView.findViewById<TextView>(R.id.post_postedby)
 
             doAsync {
                 val url = URL(posts[position].imageUri)
@@ -49,7 +46,7 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
 
             titleView.text =  posts[position].title
             locationView.text = posts[position].locationName
-//            priceView.text = posts[position].price.toString() + "€"
+            //priceView.text = posts[position].price.toString() + "€"
 
             //postedByView.text = context.getString(R.string.posted_by_text) + " " + posts[position].userSelectedDisplayName
 
@@ -58,9 +55,9 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
             postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
         }
         else
-            toreturnView = convertView
+            toReturnView = convertView
 
-        return toreturnView
+        return toReturnView
     }
 
     override fun getItem(position: Int): Any

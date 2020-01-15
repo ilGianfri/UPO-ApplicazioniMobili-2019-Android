@@ -3,9 +3,7 @@ package it.uniupo.spisso.upo_applicazionimobili.activities.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import it.uniupo.spisso.upo_applicazionimobili.R
 import kotlinx.android.synthetic.main.activity_login.*
@@ -18,7 +16,7 @@ class LoginActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         //Tells the activity to use DayNight theme
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -28,6 +26,9 @@ class LoginActivity : AppCompatActivity()
         val actionBar = supportActionBar
         actionBar?.title = getString(R.string.login_title)
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        login_button.setOnClickListener{loginClick()}
+        signup_button.setOnClickListener{signupClick()}
     }
 
     override fun onSupportNavigateUp(): Boolean
@@ -36,7 +37,7 @@ class LoginActivity : AppCompatActivity()
         return super.onSupportNavigateUp()
     }
 
-    fun loginClick(v: View?)
+    private fun loginClick()
     {
         if (usernameBox.text.toString() == "" && passwordBox.text.toString() == "")
         {
@@ -49,7 +50,8 @@ class LoginActivity : AppCompatActivity()
             .addOnSuccessListener (this)
             {
                     // Sign in success
-                    val user = auth.currentUser
+                    //val user = auth.currentUser
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -57,7 +59,7 @@ class LoginActivity : AppCompatActivity()
                 Toast.LENGTH_SHORT).show() }
     }
 
-    fun signupClick(v: View?)
+    private fun signupClick()
     {
         val intent = Intent(this, CreateAccountActivity::class.java)
         startActivity(intent)
