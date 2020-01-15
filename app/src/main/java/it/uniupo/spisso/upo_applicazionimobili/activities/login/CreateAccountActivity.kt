@@ -86,9 +86,9 @@ class CreateAccountActivity : AppCompatActivity()
     {
         val pattern: Pattern
         val matcher: Matcher
-        val PASSWORD_PATTERN =
+        val passwordPattern =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
-        pattern = Pattern.compile(PASSWORD_PATTERN)
+        pattern = Pattern.compile(passwordPattern)
         matcher = pattern.matcher(password)
         return matcher.matches()
     }
