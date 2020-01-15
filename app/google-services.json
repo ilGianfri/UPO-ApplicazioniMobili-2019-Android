@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "231661935088",
+    "firebase_url": "https://lendit-4d1da.firebaseio.com",
+    "project_id": "lendit-4d1da",
+    "storage_bucket": "lendit-4d1da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231661935088:android:e2eb435701dec4adbf2535",
+        "android_client_info": {
+          "package_name": "it.uniupo.spisso.upo_applicazionimobili"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231661935088-adj1queq6rg2s3oe1v6vi5gl5ldrmg1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMwEz8-59uKFBrGBFNfWFNfbLc8ybic1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231661935088-adj1queq6rg2s3oe1v6vi5gl5ldrmg1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
