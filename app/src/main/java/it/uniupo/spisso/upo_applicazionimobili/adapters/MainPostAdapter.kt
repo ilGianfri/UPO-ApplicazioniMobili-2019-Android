@@ -45,7 +45,7 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
             }
 
             titleView.text =  posts[position].title
-            locationView.text = posts[position].locationName
+            //locationView.text = posts[position].locationName
             //priceView.text = posts[position].price.toString() + "€"
 
             //postedByView.text = context.getString(R.string.posted_by_text) + " " + posts[position].userSelectedDisplayName

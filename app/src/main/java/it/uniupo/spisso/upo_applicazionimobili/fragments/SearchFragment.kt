@@ -64,7 +64,7 @@ class SearchFragment : Fragment()
                     val model = PostModel(item.id)
                     model.title = item.get("Title") as String
                     model.description = item.get("Description") as String
-                    model.locationName = item.get("LocationName") as String
+                    //model.locationName = item.get("LocationName") as String
                     //model.price = item.get("Price") as Long
                     model.postedOn = item.get("PostedOn") as String
                     model.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String

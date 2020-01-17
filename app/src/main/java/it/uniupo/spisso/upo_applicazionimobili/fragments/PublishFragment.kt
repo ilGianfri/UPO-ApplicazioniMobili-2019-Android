@@ -148,8 +148,6 @@ class PublishFragment : Fragment()
         {
             override fun onCallback(value: Uri?)
             {
-                var userLocation : Location? = null
-
                 //Keeps asking for location access
                 while (!checkLocationPermissions())
                     requestLocationPermission()
@@ -157,42 +155,47 @@ class PublishFragment : Fragment()
 
                 var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
                 fusedLocationClient.lastLocation
-                    .addOnSuccessListener { location : Location? ->
-                        if (location != null)
-                            userLocation = location
-                    }
-
-                if (userLocation == null || userLocation?.latitude == null || userLocation?.longitude == null)
-                {
-                    Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
-                        Toast.LENGTH_SHORT).show()
-                    return
-                }
-
-                val data = hashMapOf(
-                    "UserId" to auth.currentUser?.uid.toString(),
-                    "Title" to titleBox.text.toString(),
-                    "Description" to descriptionBox.text.toString(),
-                    "Category" to categoriesList[selectedCategory],
-                    "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude),
-                    //"LocationName" to addressText.text.toString(),
-//                    "Price" to priceText.text.toString().toLong(),
-                    "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
-                    "UserSelectedDisplayName" to displayedName.text.toString(),
-                    "ImageUri" to value.toString()
-                )
-
-                db.collection("available_items").document(UUID.randomUUID().toString())
-                    .set(data as Map<String, Any>)
-                    .addOnSuccessListener {
-                        uploadCompleteDialog()
-                        activity?.onBackPressed()
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT).show()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            if (task.result != null)
+                                publishPost(task.result, value)
+                        }
                     }
             }
         })
+    }
+
+    private fun publishPost(userLocation : Location?, image : Uri?)
+    {
+        if (userLocation == null || userLocation?.latitude == null || userLocation?.longitude == null)
+        {
+            Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val data = hashMapOf(
+            "UserId" to auth.currentUser?.uid.toString(),
+            "Title" to titleBox.text.toString(),
+            "Description" to descriptionBox.text.toString(),
+            "Category" to categoriesList[selectedCategory],
+            "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
+            //"LocationName" to addressText.text.toString(),
+//                    "Price" to priceText.text.toString().toLong(),
+            "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
+            "UserSelectedDisplayName" to displayedName.text.toString(),
+            "ImageUri" to image.toString()
+        )
+
+        db.collection("available_items").document(UUID.randomUUID().toString())
+            .set(data as Map<String, Any>)
+            .addOnSuccessListener {
+                uploadCompleteDialog()
+                activity?.onBackPressed()
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
     }
 
     /**

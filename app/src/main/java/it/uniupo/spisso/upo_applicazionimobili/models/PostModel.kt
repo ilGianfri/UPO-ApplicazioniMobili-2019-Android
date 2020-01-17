@@ -9,7 +9,7 @@ data class PostModel(val id: String)
     //var price: Long = 0
     lateinit var coordinates : DoubleArray
     //lateinit var keywords :
-    lateinit var locationName: String
+    //lateinit var locationName: String
     lateinit var userSelectedDisplayName : String
     lateinit var imageUri : String
 }
