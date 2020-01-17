@@ -6,6 +6,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,8 +18,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -41,6 +45,8 @@ class PublishFragment : Fragment()
     private val PERMISSION_CODE = 1001
     private var imagePath: Uri? = null
     private var selectedCategory: Int = 0
+    private var locationManager : LocationManager? = null
+    private val LOCATION_REQUEST_CODE = 101
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -90,7 +96,7 @@ class PublishFragment : Fragment()
             publishClick()
         }
 
-        cancel.setOnClickListener{cancelButtonClick()}
+        cancel?.setOnClickListener{cancelButtonClick()}
 
         return view
     }
@@ -142,13 +148,35 @@ class PublishFragment : Fragment()
         {
             override fun onCallback(value: Uri?)
             {
+                var userLocation : Location? = null
+
+                //Keeps asking for location access
+                while (!checkLocationPermissions())
+                    requestLocationPermission()
+
+
+                var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location : Location? ->
+                        if (location != null)
+                            userLocation = location
+                    }
+
+                if (userLocation == null || userLocation?.latitude == null || userLocation?.longitude == null)
+                {
+                    Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
+                        Toast.LENGTH_SHORT).show()
+                    return
+                }
+
                 val data = hashMapOf(
                     "UserId" to auth.currentUser?.uid.toString(),
                     "Title" to titleBox.text.toString(),
                     "Description" to descriptionBox.text.toString(),
                     "Category" to categoriesList[selectedCategory],
-                    "LocationName" to addressText.text.toString(),
-                    "Price" to priceText.text.toString().toLong(),
+                    "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude),
+                    //"LocationName" to addressText.text.toString(),
+//                    "Price" to priceText.text.toString().toLong(),
                     "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
                     "UserSelectedDisplayName" to displayedName.text.toString(),
                     "ImageUri" to value.toString()
@@ -291,6 +319,31 @@ class PublishFragment : Fragment()
         dialog.window?.setLayout(600, 600);
 
         Handler().postDelayed({ dialog.dismiss() }, 3000)
+    }
+
+/***************************************************** HELPER METHODS *************************************************************/
+
+    /**
+     * Returns true if the app has access to location
+     */
+    private fun checkLocationPermissions(): Boolean
+    {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            return true
+
+        return false
+    }
+
+    /**
+     * Shows the dialog to the user to request access to location
+     */
+    private fun requestLocationPermission()
+    {
+        ActivityCompat.requestPermissions(
+            activity!!,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_REQUEST_CODE
+        )
     }
 }
 

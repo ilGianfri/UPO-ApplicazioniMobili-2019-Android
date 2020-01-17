@@ -17,6 +17,7 @@
         android:layout_marginLeft="15dp"
         android:layout_centerHorizontal="true"
         app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_search"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
