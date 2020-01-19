@@ -12,10 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 
 import it.uniupo.spisso.upo_applicazionimobili.R
-import it.uniupo.spisso.upo_applicazionimobili.activities.MainActivity
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
-import kotlinx.android.synthetic.main.fragment_search.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
@@ -28,13 +26,19 @@ class SearchFragment : Fragment()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private var dbName : String = "available_items"
+    private var isLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+        var view : View? = null
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_search, container, false)
+        if (!isLoaded)
+        {
+            view =  inflater.inflate(R.layout.fragment_search, container, false)
+            isLoaded = true
+        }
 
-        postsList = view.findViewById(R.id.posts_list)
+        postsList = view?.findViewById(R.id.posts_list)
 
         populatePostsList(object : PostsCallback {
             override fun onCallback(value: ArrayList<PostModel>)
@@ -49,7 +53,7 @@ class SearchFragment : Fragment()
             }
         })
 
-        view.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
+        view?.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
             val publishFragment = PublishFragment()
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, publishFragment)

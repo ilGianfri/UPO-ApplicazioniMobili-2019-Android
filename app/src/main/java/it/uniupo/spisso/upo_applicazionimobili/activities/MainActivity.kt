@@ -1,10 +1,13 @@
 package it.uniupo.spisso.upo_applicazionimobili.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import it.uniupo.spisso.upo_applicazionimobili.R
+import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +18,13 @@ class MainActivity : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (FirebaseAuth.getInstance().currentUser == null)
+        {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            return
+        }
 
         val actionBar = supportActionBar
         actionBar?.hide()
