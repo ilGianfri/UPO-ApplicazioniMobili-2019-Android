@@ -26,17 +26,18 @@ class SearchFragment : Fragment()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private var dbName : String = "available_items"
-    private var isLoaded = false
+    //private var isLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         var view : View? = null
         // Inflate the layout for this fragment
-        if (!isLoaded)
-        {
+
+        //if (!isLoaded)
+        //{
             view =  inflater.inflate(R.layout.fragment_search, container, false)
-            isLoaded = true
-        }
+            //isLoaded = true
+        //}
 
         postsList = view?.findViewById(R.id.posts_list)
 

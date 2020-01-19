@@ -36,4 +36,5 @@
     <string name="password_requirements">Password must contain at least an uppercase letter, a lowercase letter, a number and a symbol</string>
     <string name="missing_location">Cannot acquire location. Location is required to publish a post. Verify that the app has the permission and try again</string>
     <string name="please_fill_fields">All fields must be filled</string>
+    <string name="available_until">Available until</string>
 </resources>

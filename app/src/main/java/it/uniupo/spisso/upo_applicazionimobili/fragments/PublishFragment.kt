@@ -3,6 +3,7 @@ package it.uniupo.spisso.upo_applicazionimobili.fragments
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -93,6 +95,11 @@ class PublishFragment : Fragment()
             else selectGalleryImage()
         }
 
+        view.findViewById<TextInputEditText>(R.id.dateText).setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus)
+                showDatePickerDialog()
+        }
+
         val publishButton = view.findViewById<Button>(R.id.publishButton)
         publishButton.setOnClickListener { view ->
             publishClick()
@@ -101,6 +108,22 @@ class PublishFragment : Fragment()
         cancel?.setOnClickListener{cancelButtonClick()}
 
         return view
+    }
+
+    /**
+     * Displays a dialog to select the day
+     */
+    private fun showDatePickerDialog()
+    {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            dateText.setText("${dayOfMonth}/${monthOfYear + 1}/${year}")
+        }, year, month, day)
+        dpd.show()
     }
 
     /**
@@ -185,7 +208,7 @@ class PublishFragment : Fragment()
         }
 
         //One text has not been filled
-        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty())
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty())
         {
             Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
                 Toast.LENGTH_SHORT).show()
@@ -208,12 +231,18 @@ class PublishFragment : Fragment()
             return
         }
 
+        titleBox.isEnabled = false
+        descriptionBox.isEnabled = false
+        displayedName.isEnabled = false
+        dateText.isEnabled = false
+
         val data = hashMapOf(
             "UserId" to auth.currentUser?.uid.toString(),
             "Title" to titleBox.text.toString(),
             "Description" to descriptionBox.text.toString(),
             "Category" to categoriesList[selectedCategory],
             "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
+            "ExpireDate" to dateText.text.toString(),
             //"LocationName" to addressText.text.toString(),
 //          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
