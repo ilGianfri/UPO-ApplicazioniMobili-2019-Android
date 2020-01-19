@@ -8,18 +8,18 @@
         android:icon="@drawable/icon_menu_home"
         android:title="@string/menu_home"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_menu_saved"
-        android:enabled="true"
-        android:icon="@drawable/icon_menu_saved"
-        android:title="@string/menu_saved"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_menu_add"
-        android:enabled="true"
-        android:icon="@drawable/icon_menu_add"
-        android:title="@string/menu_add"
-        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/action_menu_saved"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/icon_menu_saved"-->
+<!--        android:title="@string/menu_saved"-->
+<!--        app:showAsAction="ifRoom" />-->
+<!--    <item-->
+<!--        android:id="@+id/action_menu_add"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/icon_menu_add"-->
+<!--        android:title="@string/menu_add"-->
+<!--        app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/action_menu_messages"
         android:enabled="true"

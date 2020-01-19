@@ -35,16 +35,19 @@
         android:smoothScrollbar="true"
         android:layout_marginTop="10dp"/>
 
-<!--    TODO-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/publishButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="20dp"
-        android:src="@drawable/icon_my_location"
-        android:backgroundTint="@color/colorPrimary"
-        app:elevation="20dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        app:borderWidth="0dp"
+        app:tint="@null"
+        app:useCompatPadding="true"
+        app:fabSize="normal"
+        android:src="@drawable/ic_floating_post"
+        android:backgroundTint="@color/colorPrimary" />
 
 </RelativeLayout>

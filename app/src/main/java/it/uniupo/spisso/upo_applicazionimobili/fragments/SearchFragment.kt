@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 
 import it.uniupo.spisso.upo_applicazionimobili.R
+import it.uniupo.spisso.upo_applicazionimobili.activities.MainActivity
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -37,15 +39,23 @@ class SearchFragment : Fragment()
         populatePostsList(object : PostsCallback {
             override fun onCallback(value: ArrayList<PostModel>)
             {
-                try {
+                try
+                {
                     posts = value
                     val postsAdapter = MainPostAdapter(requireContext(), posts)
                     postsList?.adapter = postsAdapter
                 }
                 catch (e: Exception){}
-
             }
         })
+
+        view.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
+            val publishFragment = PublishFragment()
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, publishFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
 
         return view
     }
@@ -77,7 +87,6 @@ class SearchFragment : Fragment()
             Toast.makeText(activity?.baseContext, exception.localizedMessage,
             Toast.LENGTH_SHORT).show()
         }
-
     }
 }
 
