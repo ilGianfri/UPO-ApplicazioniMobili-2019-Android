@@ -20,20 +20,20 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
 {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
     {
-        var toReturnView: View
+        var view: View
 
         if (convertView == null)
         {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            toReturnView = inflater.inflate(R.layout.postitem_layout, null, true)
+            view = inflater.inflate(R.layout.postitem_layout, null, true)
 
-            val imageView = toReturnView.findViewById<ImageView>(R.id.post_image)
-            val titleView = toReturnView.findViewById<TextView>(R.id.post_title)
-            var locationView = toReturnView.findViewById<TextView>(R.id.post_location)
+            val imageView = view.findViewById<ImageView>(R.id.post_image)
+            val titleView = view.findViewById<TextView>(R.id.post_title)
+            var locationView = view.findViewById<TextView>(R.id.post_location)
 
 //            var priceView = toReturnView.findViewById<TextView>(R.id.post_price)
 
-            var postedOnView = toReturnView.findViewById<TextView>(R.id.post_published_on)
+            var postedOnView = view.findViewById<TextView>(R.id.post_published_on)
             //var postedByView = toReturnView.findViewById<TextView>(R.id.post_postedby)
 
             doAsync {
@@ -55,9 +55,9 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
             postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
         }
         else
-            toReturnView = convertView
+            view = convertView
 
-        return toReturnView
+        return view
     }
 
     override fun getItem(position: Int): Any
