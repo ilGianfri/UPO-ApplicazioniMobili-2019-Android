@@ -40,18 +40,20 @@ class PublishFragment : Fragment()
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    private var categoriesList : ArrayList<String> = ArrayList()
+
     private val PICK_IMAGE_REQUEST = 71
     private val PERMISSION_CODE = 1001
+    private val LOCATION_REQUEST_CODE = 101
+
     private var imagePath: Uri? = null
     private var selectedCategory: Int = 0
-    private var locationManager : LocationManager? = null
-    private val LOCATION_REQUEST_CODE = 101
+    private var categoriesList : ArrayList<String> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_publish, container, false)
+
 
         val categoriesSpinner = view.findViewById<Spinner>(R.id.categories)
         categoriesSpinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener{
@@ -62,6 +64,7 @@ class PublishFragment : Fragment()
             }
         }
 
+        //Loads categories based on current language
         loadCategories(Locale.getDefault().language, object : CategoriesCallback
         {
             override fun onCallback(value: ArrayList<String>)
@@ -76,10 +79,9 @@ class PublishFragment : Fragment()
         //Handle upload button click and check and request permission
         val buttonChooseImage = view.findViewById<Button>(R.id.btn_choose_image)
         buttonChooseImage.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_DENIED)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                if (checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
                 {
                     //permission denied
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -150,7 +152,11 @@ class PublishFragment : Fragment()
             {
                 //Keeps asking for location access
                 while (!checkLocationPermissions())
+                {
+                    Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
+                        Toast.LENGTH_SHORT).show()
                     requestLocationPermission()
+                }
 
 
                 var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
@@ -165,11 +171,39 @@ class PublishFragment : Fragment()
         })
     }
 
+    /**
+     * Publishes the Ad
+     */
     private fun publishPost(userLocation : Location?, image : Uri?)
     {
+        //No location has been acquired
         if (userLocation == null || userLocation?.latitude == null || userLocation?.longitude == null)
         {
             Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        //One text has not been filled
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty())
+        {
+            Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        //No image uploaded
+        if (image == null || image.toString().isNullOrEmpty())
+        {
+            Toast.makeText(activity?.baseContext, getString(R.string.publish_select_upload_image),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        //Category not selected
+        if (selectedCategory == 0)
+        {
+            Toast.makeText(activity?.baseContext, getString(R.string.upload_select_category),
                 Toast.LENGTH_SHORT).show()
             return
         }
@@ -181,7 +215,7 @@ class PublishFragment : Fragment()
             "Category" to categoriesList[selectedCategory],
             "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
             //"LocationName" to addressText.text.toString(),
-//                    "Price" to priceText.text.toString().toLong(),
+//          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
             "UserSelectedDisplayName" to displayedName.text.toString(),
             "ImageUri" to image.toString()
@@ -243,7 +277,8 @@ class PublishFragment : Fragment()
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
-            PERMISSION_CODE -> {
+            PERMISSION_CODE ->
+            {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     //Permission granteed

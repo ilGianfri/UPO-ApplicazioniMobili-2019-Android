@@ -29,7 +29,7 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
 
             val imageView = view.findViewById<ImageView>(R.id.post_image)
             val titleView = view.findViewById<TextView>(R.id.post_title)
-            var locationView = view.findViewById<TextView>(R.id.post_location)
+//            var locationView = view.findViewById<TextView>(R.id.post_location)
 
 //            var priceView = toReturnView.findViewById<TextView>(R.id.post_price)
 
