@@ -121,7 +121,15 @@ class PublishFragment : Fragment()
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            dateText.setText("${dayOfMonth}/${monthOfYear + 1}/${year}")
+            var mon : String = monthOfYear.toString()
+            if (mon.length < 2)
+                mon = "0$monthOfYear"
+
+            var d : String = dayOfMonth.toString()
+            if (d.length < 2)
+                d = "0$monthOfYear"
+
+            dateText.setText("${year}${mon}${d}")
         }, year, month, day)
         dpd.show()
     }
