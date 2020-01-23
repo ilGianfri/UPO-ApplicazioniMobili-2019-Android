@@ -6,29 +6,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchBoxLayout"
+    <LinearLayout
+        android:id="@+id/filtersLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
-        app:hintEnabled="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_centerHorizontal="true"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_search"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchBox"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchBoxLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textAutoCorrect" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/search_hint"
+            app:hintEnabled="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="3"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_search"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoCorrect" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/mapview_btn"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/ic_view_map"/>
+    </LinearLayout>
+
+    <Spinner
+        android:layout_below="@+id/filtersLayout"
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:prompt="@string/distance_selector_prompt"/>
 
     <ListView
-        android:layout_below="@id/searchBoxLayout"
+        android:layout_below="@id/distance"
         android:id="@+id/posts_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         app:borderWidth="0dp"
         app:tint="@null"
         app:useCompatPadding="true"

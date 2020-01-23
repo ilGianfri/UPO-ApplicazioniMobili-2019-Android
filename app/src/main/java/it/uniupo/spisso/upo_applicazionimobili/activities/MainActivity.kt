@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    public fun openFragment(fragment: Fragment)
+    private fun openFragment(fragment: Fragment)
     {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)

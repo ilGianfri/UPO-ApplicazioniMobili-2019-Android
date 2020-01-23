@@ -6,14 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
@@ -26,18 +27,13 @@ class SearchFragment : Fragment()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private var dbName : String = "available_items"
-    //private var isLoaded = false
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        var view : View? = null
         // Inflate the layout for this fragment
 
-        //if (!isLoaded)
-        //{
-            view =  inflater.inflate(R.layout.fragment_search, container, false)
-            //isLoaded = true
-        //}
+        var view : View? = inflater.inflate(R.layout.fragment_search, container, false)
 
         postsList = view?.findViewById(R.id.posts_list)
 
@@ -54,12 +50,32 @@ class SearchFragment : Fragment()
             }
         })
 
+        val distanceStrings = arrayOf(getString(R.string.any_distance), "10 km", "20 km", "50 km")
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, distanceStrings)
+        view?.findViewById<Spinner>(R.id.distance)?.adapter = spinnerAdapter
+
+        //Handle floating button click (new post)
         view?.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
             val publishFragment = PublishFragment()
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, publishFragment)
             transaction.addToBackStack(null)
             transaction.commit()
+        }
+
+        //Handle map button click
+        view?.findViewById<Button>(R.id.mapview_btn)?.setOnClickListener{
+            val fragment = MapViewFragment()
+            val fragmentManager = activity!!.supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+
+        //Handle search button click
+        view?.findViewById<TextInputLayout>(R.id.searchBoxLayout)?.setOnClickListener{
+
         }
 
         return view

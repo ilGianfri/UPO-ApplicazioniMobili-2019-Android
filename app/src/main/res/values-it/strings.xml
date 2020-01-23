@@ -34,4 +34,6 @@
     <string name="missing_location">Impossibile acquisire la posizione richiesta per pubblicare l\'annuncio. Controllare che i relativi permessi siano concessi e riprovare.</string>
     <string name="please_fill_fields">Tutti i campi devono essere compilati</string>
     <string name="available_until">Disponibile fino</string>
+    <string name="distance_selector_prompt">Distanza massima</string>
+    <string name="any_distance">Qualsiasi distanza</string>
 </resources>

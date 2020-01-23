@@ -37,4 +37,6 @@
     <string name="missing_location">Cannot acquire location. Location is required to publish a post. Verify that the app has the permission and try again</string>
     <string name="please_fill_fields">All fields must be filled</string>
     <string name="available_until">Available until</string>
+    <string name="distance_selector_prompt">Max distance</string>
+    <string name="any_distance">Any distance</string>
 </resources>
