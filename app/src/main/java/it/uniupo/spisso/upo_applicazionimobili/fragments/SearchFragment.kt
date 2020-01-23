@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 import it.uniupo.spisso.upo_applicazionimobili.R
@@ -27,6 +28,7 @@ class SearchFragment : Fragment()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private var dbName : String = "available_items"
+    private val auth = FirebaseAuth.getInstance()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -50,9 +52,24 @@ class SearchFragment : Fragment()
             }
         })
 
-        val distanceStrings = arrayOf(getString(R.string.any_distance), "10 km", "20 km", "50 km")
+        var distanceStrings = arrayOf(getString(R.string.any_distance), "10 km", "20 km", "50 km")
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, distanceStrings)
         view?.findViewById<Spinner>(R.id.distance)?.adapter = spinnerAdapter
+
+        //Handle distance changes
+        view?.findViewById<Spinner>(R.id.distance)?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
+        {
+            override fun onNothingSelected(parent: AdapterView<*>?)
+            {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
+            {
+                search(searchBox?.text.toString(), position)
+            }
+
+        }
 
         //Handle floating button click (new post)
         view?.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
@@ -79,6 +96,32 @@ class SearchFragment : Fragment()
         }
 
         return view
+    }
+
+    private fun search(searchTerm : String?, distance: Int?)
+    {
+        val posts = arrayListOf<PostModel>()
+
+//        db.collection(dbName).whereEqualTo("UserId", auth.currentUser?.uid.toString()).get().addOnCompleteListener { task ->
+//            if (task.isSuccessful)
+//            {
+//                for (item in task.result!!.documents) {
+//                    val model = PostModel(item.id)
+//                    model.title = item.get("Title") as String
+//                    model.description = item.get("Description") as String
+//                    //model.locationName = item.get("LocationName") as String
+//                    //model.price = item.get("Price") as Long
+//                    model.postedOn = item.get("PostedOn") as String
+//                    model.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
+//                    model.imageUri = item.get("ImageUri") as String
+//                    posts.add(model)
+//                }
+//                postsLoaded.onCallback(posts)
+//            }
+//        }.addOnFailureListener {  exception ->
+//            Toast.makeText(activity?.baseContext, exception.localizedMessage,
+//                Toast.LENGTH_SHORT).show()
+//        }
     }
 
     /**

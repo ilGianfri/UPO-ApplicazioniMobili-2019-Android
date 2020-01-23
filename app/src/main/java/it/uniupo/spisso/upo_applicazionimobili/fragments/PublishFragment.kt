@@ -14,6 +14,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,8 @@ import kotlinx.android.synthetic.main.fragment_publish.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 /**
@@ -56,15 +60,40 @@ class PublishFragment : Fragment()
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_publish, container, false)
 
-
+        //Handle categories
         val categoriesSpinner = view.findViewById<Spinner>(R.id.categories)
-        categoriesSpinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener{
+        categoriesSpinner.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener
+        {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedCategory = position
             }
         }
+
+        val keywords = view.findViewById<TextInputEditText>(R.id.keywordsText)
+        keywords.addTextChangedListener(object : TextWatcher
+        {
+            //Check for not allowed stuff (only , is ok)
+            override fun afterTextChanged(s: Editable?)
+            {
+                val pattern: Pattern
+                val matcher: Matcher
+                val passwordPattern =
+                    "[\$&+:;=?@#|'<>.^*()%!-]"
+                pattern = Pattern.compile(passwordPattern)
+                matcher = pattern.matcher(s.toString())
+
+                if (matcher.matches())
+                    keywords.error = getString(R.string.keywords)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
 
         //Loads categories based on current language
         loadCategories(Locale.getDefault().language, object : CategoriesCallback
@@ -216,7 +245,7 @@ class PublishFragment : Fragment()
         }
 
         //One text has not been filled
-        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty())
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty() || keywordsText.text.isNullOrEmpty())
         {
             Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
                 Toast.LENGTH_SHORT).show()
@@ -255,7 +284,8 @@ class PublishFragment : Fragment()
 //          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
             "UserSelectedDisplayName" to displayedName.text.toString(),
-            "ImageUri" to image.toString()
+            "ImageUri" to image.toString(),
+            "Keywords" to keywordsText.text!!.split(",")
         )
 
         db.collection("available_items").document(UUID.randomUUID().toString())

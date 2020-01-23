@@ -36,4 +36,5 @@
     <string name="available_until">Disponibile fino</string>
     <string name="distance_selector_prompt">Distanza massima</string>
     <string name="any_distance">Qualsiasi distanza</string>
+    <string name="keywords">Parole chiave separate da virgola (es: martello, attrezzi)</string>
 </resources>
