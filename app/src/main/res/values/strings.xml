@@ -40,4 +40,5 @@
     <string name="distance_selector_prompt">Max distance</string>
     <string name="any_distance">Any distance</string>
     <string name="keywords">Keywords separated by comma (e.g hammer, wall)</string>
+    <string name="items_db_name" translatable="false">available_items</string>
 </resources>

@@ -7,7 +7,7 @@ data class PostModel(val id: String)
     var category: Int = 0
     lateinit var postedOn: String
     //var price: Long = 0
-    lateinit var coordinates : DoubleArray
+    lateinit var coordinates : ArrayList<Double>
     //lateinit var keywords :
     //lateinit var locationName: String
     lateinit var userSelectedDisplayName : String
