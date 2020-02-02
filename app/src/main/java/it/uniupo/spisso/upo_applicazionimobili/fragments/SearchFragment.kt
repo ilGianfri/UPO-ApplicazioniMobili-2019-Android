@@ -163,22 +163,16 @@ class SearchFragment : Fragment()
                         {
                             1 -> //10km
                             {
-                                Toast.makeText(activity?.baseContext, "10",
-                                    Toast.LENGTH_SHORT).show()
                                 if (currentLocation!!.distanceTo(itemLoc) > 10000)
                                     continue@loop
                             }
                             2 -> //20km
                             {
-                                Toast.makeText(activity?.baseContext, "20",
-                                    Toast.LENGTH_SHORT).show()
                                 if (currentLocation!!.distanceTo(itemLoc) > 20000)
                                     continue@loop
                             }
                             3 -> //50km
                             {
-                                Toast.makeText(activity?.baseContext, "50",
-                                    Toast.LENGTH_SHORT).show()
                                 if (currentLocation!!.distanceTo(itemLoc) > 50000)
                                     continue@loop
                             }
