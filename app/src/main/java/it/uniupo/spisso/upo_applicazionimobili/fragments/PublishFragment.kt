@@ -158,7 +158,7 @@ class PublishFragment : Fragment()
             if (d.length < 2)
                 d = "0$monthOfYear"
 
-            dateText.setText("${year}${mon}${d}")
+            dateText.setText("${d}/${mon}/${year}")
         }, year, month, day)
         dpd.show()
     }
@@ -273,6 +273,11 @@ class PublishFragment : Fragment()
         displayedName.isEnabled = false
         dateText.isEnabled = false
 
+        var keywords = keywordsText.text!!.toString().toLowerCase().split(",").toMutableList()
+        keywords.add("")
+        keywords.add(titleBox.text.toString())
+        keywords.addAll(titleBox.text.toString().split(" "))
+
         val data = hashMapOf(
             "UserId" to auth.currentUser?.uid.toString(),
             "Title" to titleBox.text.toString(),
@@ -280,12 +285,11 @@ class PublishFragment : Fragment()
             "Category" to categoriesList[selectedCategory],
             "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
             "ExpireDate" to dateText.text.toString(),
-            //"LocationName" to addressText.text.toString(),
 //          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
             "UserSelectedDisplayName" to displayedName.text.toString(),
             "ImageUri" to image.toString(),
-            "Keywords" to keywordsText.text!!.split(",")
+            "Keywords" to keywords
         )
 
         db.collection("available_items").document(UUID.randomUUID().toString())
