@@ -27,7 +27,7 @@
     <string name="publish_select_upload_image">Scegli e carica immagine</string>
     <string name="storage_permission_needed">L\'applicazione ha bisogno di accedere allo storage per poter caricare un\'immagine. Perfavore consenti l\'accesso.</string>
     <string name="image_upload_failed">L\'upload dell\'immagine non è andato a buon fine. Prova di nuovo</string>
-    <string name="name_display">Nome da mostrare pubblicamente</string>
+    <string name="name_display">Nome utente da mostrare pubblicamente</string>
     <string name="upload_address">Posizione</string>
     <string name="publish_price">Prezzo (anche 0)</string>
     <string name="password_requirements">La password deve contenere almeno una lettera minuscola, una lettera maiuscola, un numero e un simbolo</string>

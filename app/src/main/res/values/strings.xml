@@ -30,7 +30,7 @@
     <string name="publish_select_upload_image">Choose and upload image</string>
     <string name="storage_permission_needed">The app needs to access your storage to upload an image. Please grant the access to your storage</string>
     <string name="image_upload_failed">The image upload has failed. Please try again.</string>
-    <string name="name_display">Name to display publicly</string>
+    <string name="name_display">User name to display publicly</string>
     <string name="upload_address">Location</string>
     <string name="publish_price">Price (can be 0)</string>
     <string name="password_requirements">Password must contain at least an uppercase letter, a lowercase letter, a number and a symbol</string>

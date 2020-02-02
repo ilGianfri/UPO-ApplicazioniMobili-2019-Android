@@ -71,29 +71,29 @@ class PublishFragment : Fragment()
             }
         }
 
-        val keywords = view.findViewById<TextInputEditText>(R.id.keywordsText)
-        keywords.addTextChangedListener(object : TextWatcher
-        {
-            //Check for not allowed stuff (only , is ok)
-            override fun afterTextChanged(s: Editable?)
-            {
-                val pattern: Pattern
-                val matcher: Matcher
-                val passwordPattern =
-                    "[\$&+:;=?@#|'<>.^*()%!-]"
-                pattern = Pattern.compile(passwordPattern)
-                matcher = pattern.matcher(s.toString())
-
-                if (matcher.matches())
-                    keywords.error = getString(R.string.keywords)
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
+//        val keywords = view.findViewById<TextInputEditText>(R.id.keywordsText)
+//        keywords.addTextChangedListener(object : TextWatcher
+//        {
+//            //Check for not allowed stuff (only , is ok)
+//            override fun afterTextChanged(s: Editable?)
+//            {
+//                val pattern: Pattern
+//                val matcher: Matcher
+//                val passwordPattern =
+//                    "[\$&+:;=?@#|'<>.^*()%!-]"
+//                pattern = Pattern.compile(passwordPattern)
+//                matcher = pattern.matcher(s.toString())
+//
+//                if (matcher.matches())
+//                    keywords.error = getString(R.string.keywords)
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//        })
 
         //Loads categories based on current language
         loadCategories(Locale.getDefault().language, object : CategoriesCallback
@@ -245,7 +245,9 @@ class PublishFragment : Fragment()
         }
 
         //One text has not been filled
-        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty() || keywordsText.text.isNullOrEmpty())
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty()
+            //|| keywordsText.text.isNullOrEmpty()
+        )
         {
             Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
                 Toast.LENGTH_SHORT).show()
@@ -273,10 +275,9 @@ class PublishFragment : Fragment()
         displayedName.isEnabled = false
         dateText.isEnabled = false
 
-        var keywords = keywordsText.text!!.toString().toLowerCase().split(",").toMutableList()
+        var keywords = titleBox.text.toString().split(" ").toMutableList()
         keywords.add("")
         keywords.add(titleBox.text.toString())
-        keywords.addAll(titleBox.text.toString().split(" "))
 
         val data = hashMapOf(
             "UserId" to auth.currentUser?.uid.toString(),
