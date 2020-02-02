@@ -1,18 +1,23 @@
 package it.uniupo.spisso.upo_applicazionimobili.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import it.uniupo.spisso.upo_applicazionimobili.R
-import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
 
 
@@ -24,7 +29,33 @@ class MapViewFragment : Fragment()
     private lateinit var mapV : MapView
     private lateinit var googleMap : GoogleMap
     private val db = FirebaseFirestore.getInstance()
+    private val LOCATION_REQUEST_CODE = 101
 
+    private fun requestPermission(permissionType: String, requestCode: Int)
+    {
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permissionType), requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,  permissions: Array<String>, grantResults: IntArray)
+    {
+        when (requestCode)
+        {
+            LOCATION_REQUEST_CODE ->
+            {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                    Toast.makeText(requireContext(), getString(R.string.missing_location), Toast.LENGTH_LONG).show()
+                else
+                {
+                    val permission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+
+                    if (permission == PackageManager.PERMISSION_GRANTED)
+                        googleMap?.isMyLocationEnabled = true
+                    else
+                        requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE)
+                }
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -41,31 +72,30 @@ class MapViewFragment : Fragment()
         catch (e : Exception) {}
 
         mapV.getMapAsync { mMap ->
+
             googleMap = mMap
             // For showing a move to my location button
-            googleMap.setMyLocationEnabled(true)
+            googleMap?.isMyLocationEnabled = true
 
             populateMap()
 
+            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-            // For dropping a marker at a point on the Map
-            //val sydney = LatLng(-34, 151)
-            //googleMap.addMarker(MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"))
-            // For zooming automatically to the location of the marker
-            //val cameraPosition =
-            //    CameraPosition.Builder().target(sydney).zoom(12f).build()
-            //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                    // Got last known location and zooms to it
+                    if (location != null)
+                    {
+                        val currentLocation = LatLng(location.latitude, location.longitude)
+                        val cameraPosition = CameraPosition.Builder().target(currentLocation).zoom(12f).build()
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                    }
+                }
         }
-
-
-
         return view
     }
 
     private fun populateMap()
     {
-        //val posts = arrayListOf<PostModel>()
-
         db.collection(getString(R.string.items_db_name)).get().addOnCompleteListener { task ->
             if (task.isSuccessful)
             {
@@ -76,9 +106,9 @@ class MapViewFragment : Fragment()
                     model.description = item.get("Description") as String
                     model.coordinates = item.get("Coordinates") as ArrayList<Double>
 
-                    val sydney = LatLng(model.coordinates[0], model.coordinates[1])
-
-                    googleMap.addMarker(MarkerOptions().position(sydney).title(model.title).snippet(model.description))
+                    //Adds the marker to the map
+                    val itemLocation = LatLng(model.coordinates[0], model.coordinates[1])
+                    googleMap.addMarker(MarkerOptions().position(itemLocation).title(model.title).snippet(model.description))
                 }
             }
         }.addOnFailureListener {  exception ->
