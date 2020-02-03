@@ -1,6 +1,7 @@
 package it.uniupo.spisso.upo_applicazionimobili.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -10,8 +11,8 @@ import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity()
+{
     private var bottomNavigation: BottomNavigationView? = null
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -101,5 +102,4 @@ class MainActivity : AppCompatActivity() {
         //transaction.addToBackStack(null)
         transaction.commit()
     }
-
 }

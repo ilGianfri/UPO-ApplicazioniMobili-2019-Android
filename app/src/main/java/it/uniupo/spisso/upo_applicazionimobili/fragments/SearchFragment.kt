@@ -13,7 +13,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
@@ -30,8 +29,6 @@ class SearchFragment : Fragment()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private var dbName : String = "available_items"
-    private val auth = FirebaseAuth.getInstance()
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -40,6 +37,19 @@ class SearchFragment : Fragment()
         var view : View? = inflater.inflate(R.layout.fragment_search, container, false)
 
         postsList = view?.findViewById(R.id.posts_list)
+        postsList?.setOnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position) as PostModel
+            val bundle = Bundle()
+            bundle.putString("postId", selectedItem.id)
+
+            val detailsView = DetailsViewFragment()
+            detailsView.arguments = bundle
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.container, detailsView)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+
         search()
 
         var distanceStrings = arrayOf(getString(R.string.any_distance), "10 km", "20 km", "50 km")
@@ -124,7 +134,7 @@ class SearchFragment : Fragment()
     /**
      * Loads all the posts from the db
      */
-    private fun populatePostsList(text : String, searchRadious : Int, postsLoaded : PostsCallback)
+    private fun populatePostsList(text : String, searchRadius : Int, postsLoaded : PostsCallback)
     {
         this.posts.clear()
 
@@ -153,13 +163,13 @@ class SearchFragment : Fragment()
                     model.coordinates = item.get("Coordinates") as ArrayList<Double>
 
                     //If 0 = any distance
-                    if (searchRadious != 0 && currentLocation != null)
+                    if (searchRadius != 0 && currentLocation != null)
                     {
                         val itemLoc = Location("")
                         itemLoc.latitude = model.coordinates[0]
                         itemLoc.longitude = model.coordinates[1]
 
-                        when (searchRadious)
+                        when (searchRadius)
                         {
                             1 -> //10km
                             {

@@ -225,7 +225,6 @@
             android:layout_weight="0.5"
             android:layout_margin="5dp"
             android:id="@+id/publishButton"
-            android:onClick="publishClick"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/publish_publish_btn"
             android:layout_alignEnd="@id/cancel"/>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DetailsViewFragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout android:layout_height="wrap_content" android:layout_width="wrap_content">
+            <ImageView
+                android:id="@+id/post_image"
+                android:layout_width="match_parent"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_height="300dp"/>
+
+            <TextView
+                android:id="@+id/post_title"
+                android:textSize="26sp"
+                android:layout_below="@id/post_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/post_description"
+                android:textSize="14sp"
+                android:layout_below="@id/post_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="12"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/post_distance"
+                android:textSize="14sp"
+                android:layout_below="@id/post_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="12"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"/>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/cancel"-->
+<!--            android:layout_alignParentTop="false"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.5"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:textColor="@color/colorAccent"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:text="@string/back_button_publish"/>-->
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_alignParentBottom="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            android:id="@+id/publishButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:text="@string/message_user"
+            android:layout_alignEnd="@id/cancel"/>
+    </LinearLayout>
+</RelativeLayout>

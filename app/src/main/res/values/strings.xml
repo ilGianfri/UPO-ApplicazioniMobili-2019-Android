@@ -41,4 +41,6 @@
     <string name="any_distance">Any distance</string>
     <string name="keywords">Keywords separated by comma (e.g hammer, wall)</string>
     <string name="items_db_name" translatable="false">available_items</string>
+    <string name="message_user">Message the user</string>
+    <string name="details_distance">"Distance from you: "</string>
 </resources>

@@ -37,4 +37,6 @@
     <string name="distance_selector_prompt">Distanza massima</string>
     <string name="any_distance">Qualsiasi distanza</string>
     <string name="keywords">Parole chiave separate da virgola (es: martello, attrezzi)</string>
+    <string name="message_user">Invia messaggio</string>
+    <string name="details_distance">"Distanza: "</string>
 </resources>
