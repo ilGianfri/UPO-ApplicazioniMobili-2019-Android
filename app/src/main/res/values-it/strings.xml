@@ -39,4 +39,6 @@
     <string name="keywords">Parole chiave separate da virgola (es: martello, attrezzi)</string>
     <string name="message_user">Invia messaggio</string>
     <string name="details_distance">"Distanza: "</string>
+    <string name="messages_title">Messaggi</string>
+    <string name="profile_title">Profilo</string>
 </resources>

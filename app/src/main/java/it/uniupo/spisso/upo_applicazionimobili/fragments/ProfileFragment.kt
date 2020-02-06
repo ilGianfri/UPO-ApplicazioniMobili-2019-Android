@@ -24,11 +24,12 @@ class ProfileFragment : Fragment()
     private val db = FirebaseFirestore.getInstance()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
-    private var dbName : String = "available_items"
+    private lateinit var dbName : String
     private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+        dbName = getString(R.string.items_db_name)
         // Inflate the layout for this fragment
         var view : View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
@@ -60,7 +61,8 @@ class ProfileFragment : Fragment()
         db.collection(dbName).whereEqualTo("UserId", auth.currentUser?.uid.toString()).get().addOnCompleteListener { task ->
             if (task.isSuccessful)
             {
-                for (item in task.result!!.documents) {
+                for (item in task.result!!.documents)
+                {
                     val model = PostModel(item.id)
                     model.title = item.get("Title") as String
                     model.description = item.get("Description") as String

@@ -26,7 +26,7 @@ class DetailsViewFragment : Fragment()
 {
     private var itemID: String? = null
     private val db = FirebaseFirestore.getInstance()
-    private var dbName : String = "available_items"
+    private lateinit var dbName : String
     private lateinit var currentItem : PostModel
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -37,9 +37,11 @@ class DetailsViewFragment : Fragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        // Inflate the layout for this fragment
+        dbName = getString(R.string.items_db_name)
 
         getItemDetails(itemID.toString())
+
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details_view, container, false)
     }
 

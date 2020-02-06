@@ -3,12 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ProfileFragment"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_title"
+        android:id="@+id/title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
     <ListView
         android:id="@+id/myposts_list"
+        android:layout_below="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:smoothScrollbar="true"

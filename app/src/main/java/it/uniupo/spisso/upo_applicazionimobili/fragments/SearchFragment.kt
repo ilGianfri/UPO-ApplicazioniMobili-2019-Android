@@ -28,10 +28,11 @@ class SearchFragment : Fragment()
     private val db = FirebaseFirestore.getInstance()
     private var postsList : ListView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
-    private var dbName : String = "available_items"
+    private lateinit var dbName : String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+        dbName = getString(R.string.items_db_name)
         // Inflate the layout for this fragment
 
         var view : View? = inflater.inflate(R.layout.fragment_search, container, false)
@@ -62,10 +63,7 @@ class SearchFragment : Fragment()
 
         distanceSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
-            override fun onNothingSelected(parent: AdapterView<*>?)
-            {
-
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
             {

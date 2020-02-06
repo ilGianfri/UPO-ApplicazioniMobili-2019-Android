@@ -293,7 +293,7 @@ class PublishFragment : Fragment()
             "Keywords" to keywords
         )
 
-        db.collection("available_items").document(UUID.randomUUID().toString())
+        db.collection(getString(R.string.items_db_name)).document(UUID.randomUUID().toString())
             .set(data as Map<String, Any>)
             .addOnSuccessListener {
                 uploadCompleteDialog()

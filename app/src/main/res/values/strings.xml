@@ -43,4 +43,6 @@
     <string name="items_db_name" translatable="false">available_items</string>
     <string name="message_user">Message the user</string>
     <string name="details_distance">"Distance from you: "</string>
+    <string name="messages_title">Messages</string>
+    <string name="profile_title">Profile</string>
 </resources>
