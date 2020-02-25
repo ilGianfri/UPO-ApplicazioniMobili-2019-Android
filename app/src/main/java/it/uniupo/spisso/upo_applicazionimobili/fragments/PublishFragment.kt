@@ -134,7 +134,7 @@ class PublishFragment : Fragment()
             publishClick()
         }
 
-        cancel?.setOnClickListener{cancelButtonClick()}
+        //view.findViewById<Button>(R.id.publishButton)?.setOnClickListener{ activity?.onBackPressed() }
 
         return view
     }
@@ -191,14 +191,6 @@ class PublishFragment : Fragment()
             Toast.makeText(activity?.baseContext, exception.localizedMessage,
                 Toast.LENGTH_SHORT).show()
         }
-    }
-
-    /**
-     * Handles cancel button click
-     */
-    private fun cancelButtonClick()
-    {
-        activity?.onBackPressed()
     }
 
     /**

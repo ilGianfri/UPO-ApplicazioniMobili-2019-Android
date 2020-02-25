@@ -15,7 +15,7 @@ import org.jetbrains.anko.uiThread
 import java.net.URL
 
 
-class ChatsAdapter(private val context: Context, private val conversations: ArrayList<ConversationModel>) : BaseAdapter()
+class ChatsListAdapter(private val context: Context, private val conversations: ArrayList<ConversationModel>) : BaseAdapter()
 {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
     {

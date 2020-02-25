@@ -45,4 +45,6 @@
     <string name="details_distance">"Distance from you: "</string>
     <string name="messages_title">Messages</string>
     <string name="profile_title">Profile</string>
+    <string name="chat_send_message_placeholder">Write your message here..</string>
+    <string name="send">Send</string>
 </resources>
