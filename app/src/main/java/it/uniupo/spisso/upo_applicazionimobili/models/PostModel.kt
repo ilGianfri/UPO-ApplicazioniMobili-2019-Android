@@ -11,5 +11,6 @@ data class PostModel(val id: String)
     //lateinit var keywords :
     //lateinit var locationName: String
     lateinit var userSelectedDisplayName : String
+    lateinit var userId : String
     lateinit var imageUri : String
 }

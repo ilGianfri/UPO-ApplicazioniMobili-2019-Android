@@ -7,16 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 import it.uniupo.spisso.upo_applicazionimobili.R
+import it.uniupo.spisso.upo_applicazionimobili.models.ConversationModel
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
 import kotlinx.android.synthetic.main.fragment_details_view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 /**
@@ -26,6 +34,7 @@ class DetailsViewFragment : Fragment()
 {
     private var itemID: String? = null
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var dbName : String
     private lateinit var currentItem : PostModel
 
@@ -37,12 +46,49 @@ class DetailsViewFragment : Fragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+        val view = inflater.inflate(R.layout.fragment_details_view, container, false)
         dbName = getString(R.string.items_db_name)
 
         getItemDetails(itemID.toString())
 
+        view.findViewById<MaterialButton>(R.id.messageUserBtn).setOnClickListener {
+            if (auth.currentUser?.uid.toString() == currentItem.userId)
+            {
+                Toast.makeText(requireContext(), R.string.chat_yourself_no, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val data = hashMapOf(
+                "itemId" to currentItem.id,
+                "itemImage" to currentItem.imageUri,
+                "itemTitle" to currentItem.title,
+                "users" to arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId)
+            )
+
+            val id = UUID.randomUUID().toString()
+            db.collection("chats").document(id)
+                .set(data as Map<String, Any>)
+                .addOnSuccessListener {
+                    val bundle = Bundle()
+                    bundle.putString("chatId", id)
+                    bundle.putStringArrayList("users", arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId))
+
+                    val detailsView = ChatView()
+                    detailsView.arguments = bundle
+                    val transaction = fragmentManager?.beginTransaction()
+                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    transaction?.replace(R.id.container, detailsView)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT)
+                        .show()
+                }
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details_view, container, false)
+        return view
     }
 
     private fun getItemDetails(itemId : String)
@@ -58,6 +104,7 @@ class DetailsViewFragment : Fragment()
                 currentItem.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
                 currentItem.imageUri = item.get("ImageUri") as String
                 currentItem.coordinates = item.get("Coordinates") as ArrayList<Double>
+                currentItem.userId = item.get("UserId") as String
 
                 doAsync {
                     val url = URL(currentItem.imageUri)

@@ -47,4 +47,5 @@
     <string name="profile_title">Profile</string>
     <string name="chat_send_message_placeholder">Write your message here..</string>
     <string name="send">Send</string>
+    <string name="chat_yourself_no">You can\'t chat with yourself!</string>
 </resources>
