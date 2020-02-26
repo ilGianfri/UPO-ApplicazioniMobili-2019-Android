@@ -1,25 +1,26 @@
 package it.uniupo.spisso.upo_applicazionimobili.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MessagesAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.BaseMessage
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class ChatView : Fragment()
 {
@@ -54,8 +55,16 @@ class ChatView : Fragment()
 
         fetchMessages();
 
-        val sendBtn = view.findViewById<Button>(R.id.send_message)
-        sendBtn.setOnClickListener { sendMessage() }
+        view.findViewById<EditText>(R.id.enter_message).setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEND)
+            {
+                sendMessage()
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
+        view.findViewById<TextInputLayout>(R.id.message_layout).setEndIconOnClickListener{ sendMessage() }
 
         return view
     }
