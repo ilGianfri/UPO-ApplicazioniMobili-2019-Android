@@ -39,7 +39,7 @@ class ChatsListAdapter(private val context: Context, private val conversations: 
 
             titleView.text =  conversations[position].title
 
-//            val parser = SimpleDateFormat("yyyyMMdd_HHmmss")
+//            val parser = SimpleDateFormat("yyyyMMdd_HH:mm:ss")
 //            val formatter = SimpleDateFormat("dd/MM")
 //            postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
         }

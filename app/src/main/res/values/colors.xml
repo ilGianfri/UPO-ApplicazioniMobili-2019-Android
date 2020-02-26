@@ -9,6 +9,7 @@
 <!--    <color name="DayForeground">#000000</color>-->
 <!--    <color name="NightForeground">#FFFFFF</color>-->
     <color name="Gray">#C4C4C4</color>
+    <color name="DarkGray">#989898</color>
     <color name="White">#FFFFFF</color>
 
     <color name="textPrimary">#000000</color>

@@ -279,7 +279,7 @@ class PublishFragment : Fragment()
             "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
             "ExpireDate" to dateText.text.toString(),
 //          "Price" to priceText.text.toString().toLong(),
-            "PostedOn" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()),
+            "PostedOn" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date()),
             "UserSelectedDisplayName" to displayedName.text.toString(),
             "ImageUri" to image.toString(),
             "Keywords" to keywords

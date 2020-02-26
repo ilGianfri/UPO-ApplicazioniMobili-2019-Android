@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
@@ -69,27 +70,30 @@ class ChatView : Fragment()
         return view
     }
 
-    private fun fetchMessages()
-    {
-        db.collection("chats").document(chatID).collection("messages").orderBy("dateTime", Query.Direction.ASCENDING).get().addOnCompleteListener { task ->
-            if (task.isSuccessful)
+    private fun fetchMessages() {
+        val collection = db.collection("chats").document(chatID).collection("messages")
+            .orderBy("dateTime", Query.Direction.ASCENDING)
+
+        collection.addSnapshotListener { snapshots, e ->
+            if (snapshots != null && e == null)
             {
-                //No results = no chats
-                if (task.result!!.isEmpty)
-                    return@addOnCompleteListener
-
-                val messages = arrayListOf<BaseMessage>()
-                for (item in task.result!!.documents)
+                for (dc in snapshots!!.documentChanges)
                 {
-                    val textMessage = BaseMessage(item.id)
-                    textMessage.message = item.getString("message") as String
-                    textMessage.senderId = item.getString("senderId") as String
-                    textMessage.receiverId = item.getString("receiverId") as String
+                    when (dc.type)
+                    {
+                        DocumentChange.Type.ADDED ->
+                        {
+                            val textMessage = BaseMessage(dc.document.id)
+                            textMessage.message = dc.document.getString("message") as String
+                            textMessage.senderId = dc.document.getString("senderId") as String
+                            textMessage.receiverId = dc.document.getString("receiverId") as String
 
-                    messagesAdapter.appendMessage(textMessage)
+                            messagesAdapter.appendMessage(textMessage)
+                        }
+                    }
                 }
             }
-        }.addOnFailureListener {  exception -> Toast.makeText(activity?.baseContext, exception.localizedMessage, Toast.LENGTH_SHORT).show() }
+        }
     }
 
     private fun sendMessage()
@@ -104,14 +108,14 @@ class ChatView : Fragment()
             "message" to textMessage.message,
             "senderId" to textMessage.senderId,
             "receiverId" to textMessage.receiverId,
-            "dateTime" to SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            "dateTime" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date())
         )
 
         db.collection("chats").document(chatID).collection("messages").document(textMessage.id)
             .set(data as Map<String, Any>)
             .addOnSuccessListener {
 
-                messagesAdapter.appendMessage(textMessage)
+                //messagesAdapter.appendMessage(textMessage)
                 scrollToBottom()
                 view?.findViewById<EditText>(R.id.enter_message)?.text?.clear()
             }

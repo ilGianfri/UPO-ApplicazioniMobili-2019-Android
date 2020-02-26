@@ -50,7 +50,7 @@ class MainPostAdapter(private val context: Context, private val posts: ArrayList
 
             //postedByView.text = context.getString(R.string.posted_by_text) + " " + posts[position].userSelectedDisplayName
 
-            val parser = SimpleDateFormat("yyyyMMdd_HHmmss")
+            val parser = SimpleDateFormat("yyyyMMdd_HH:mm:ss")
             val formatter = SimpleDateFormat("dd/MM")
             postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
         }
