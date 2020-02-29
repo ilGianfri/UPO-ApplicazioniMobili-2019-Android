@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -22,7 +24,7 @@ import java.lang.Exception
 class ProfileFragment : Fragment()
 {
     private val db = FirebaseFirestore.getInstance()
-    private var postsList : ListView? = null
+    private var postsList : RecyclerView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private lateinit var dbName : String
     private val auth = FirebaseAuth.getInstance()
@@ -34,19 +36,11 @@ class ProfileFragment : Fragment()
         var view : View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
         postsList = view?.findViewById(R.id.myposts_list)
+        val layoutMgr = LinearLayoutManager(requireContext())
+        layoutMgr.stackFromEnd = true
+        postsList?.layoutManager = layoutMgr
 
-        populatePostsList(object : CurrentUserPostsCallback {
-            override fun onCallback(value: ArrayList<PostModel>)
-            {
-                try
-                {
-                    posts = value
-                    val postsAdapter = MainPostAdapter(requireContext(), posts)
-                    postsList?.adapter = postsAdapter
-                }
-                catch (e: Exception){}
-            }
-        })
+        populatePostsList()
 
         return view
     }
@@ -54,7 +48,7 @@ class ProfileFragment : Fragment()
     /**
      * Loads all the posts from the db owned by the current user
      */
-    private fun populatePostsList(postsLoaded : CurrentUserPostsCallback)
+    private fun populatePostsList()
     {
         val posts = arrayListOf<PostModel>()
 
@@ -74,18 +68,13 @@ class ProfileFragment : Fragment()
                     model.imageUri = item.get("ImageUri") as String
                     posts.add(model)
                 }
-                postsLoaded.onCallback(posts)
+
+                val postsAdapter = MainPostAdapter(requireContext(), posts)
+                postsList?.adapter = postsAdapter
             }
         }.addOnFailureListener {  exception ->
             Toast.makeText(activity?.baseContext, exception.localizedMessage,
                 Toast.LENGTH_SHORT).show()
         }
     }
-}
-
-/**
- * Callback used to know when all posts have been loaded
- */
-interface CurrentUserPostsCallback {
-    fun onCallback(value: ArrayList<PostModel>)
 }

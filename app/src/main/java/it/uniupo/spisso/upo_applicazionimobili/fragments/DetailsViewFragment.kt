@@ -66,6 +66,18 @@ class DetailsViewFragment : Fragment()
             )
 
             val id = UUID.randomUUID().toString()
+
+            db.collection("chats").whereEqualTo("itemId", currentItem.id).get().addOnCompleteListener { task ->
+                if (task.isSuccessful)
+                {
+                    //No results
+                    if (task.result!!.isEmpty)
+                        return@addOnCompleteListener
+
+
+                }
+            }
+
             db.collection("chats").document(id)
                 .set(data as Map<String, Any>)
                 .addOnSuccessListener {

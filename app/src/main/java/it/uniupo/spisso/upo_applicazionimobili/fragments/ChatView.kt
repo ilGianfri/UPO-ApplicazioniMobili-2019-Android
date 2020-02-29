@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MessagesAdapter
@@ -31,6 +32,7 @@ class ChatView : Fragment()
     private lateinit var messagesList: RecyclerView
     private lateinit var chatID : String //chat document ID
     private lateinit var receiverId : String
+    private lateinit var incomingMessages : ListenerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -39,6 +41,12 @@ class ChatView : Fragment()
         val users = arguments?.getStringArrayList("users")
         users?.remove(auth.currentUser?.uid.toString())
         receiverId = users!!.first()
+    }
+
+    override fun onDestroy()
+    {
+        super.onDestroy()
+        incomingMessages?.remove()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -74,7 +82,7 @@ class ChatView : Fragment()
         val collection = db.collection("chats").document(chatID).collection("messages")
             .orderBy("dateTime", Query.Direction.ASCENDING)
 
-        collection.addSnapshotListener { snapshots, e ->
+        incomingMessages = collection.addSnapshotListener { snapshots, e ->
             if (snapshots != null && e == null)
             {
                 for (dc in snapshots!!.documentChanges)

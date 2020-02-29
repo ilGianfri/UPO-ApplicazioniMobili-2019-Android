@@ -7,13 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
+import it.uniupo.spisso.upo_applicazionimobili.models.BaseMessage
 
 class MainActivity : AppCompatActivity()
 {
     private var bottomNavigation: BottomNavigationView? = null
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -81,6 +87,7 @@ class MainActivity : AppCompatActivity()
             R.id.action_menu_messages -> {
                 val messagesFragment = MessagesFragment()
                 openFragment(messagesFragment)
+                bottomNavigation?.removeBadge(R.id.action_menu_messages)
                 return@OnNavigationItemSelectedListener true
             }
 

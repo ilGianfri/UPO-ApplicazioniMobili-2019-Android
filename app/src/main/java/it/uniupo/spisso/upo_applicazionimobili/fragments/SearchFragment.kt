@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -26,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 class SearchFragment : Fragment()
 {
     private val db = FirebaseFirestore.getInstance()
-    private var postsList : ListView? = null
+    private var postsList : RecyclerView? = null
     private var posts : ArrayList<PostModel> = ArrayList()
     private lateinit var dbName : String
 
@@ -38,19 +40,9 @@ class SearchFragment : Fragment()
         var view : View? = inflater.inflate(R.layout.fragment_search, container, false)
 
         postsList = view?.findViewById(R.id.posts_list)
-        postsList?.setOnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as PostModel
-            val bundle = Bundle()
-            bundle.putString("postId", selectedItem.id)
-
-            val detailsView = DetailsViewFragment()
-            detailsView.arguments = bundle
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            transaction?.replace(R.id.container, detailsView)
-            transaction?.addToBackStack(null)
-            transaction?.commit()
-        }
+        val layoutMgr = LinearLayoutManager(requireContext())
+        layoutMgr.stackFromEnd = true
+        postsList?.layoutManager = layoutMgr
 
         search()
 
@@ -117,24 +109,13 @@ class SearchFragment : Fragment()
      */
     private fun search(text : String = "", searchRadious : Int = 0)
     {
-        populatePostsList(text, searchRadious, object : PostsCallback {
-            override fun onCallback(value: ArrayList<PostModel>)
-            {
-                try
-                {
-                    posts = value
-                    val postsAdapter = MainPostAdapter(requireContext(), posts)
-                    postsList?.adapter = postsAdapter
-                }
-                catch (e: Exception){}
-            }
-        })
+        populatePostsList(text, searchRadious)
     }
 
     /**
      * Loads all the posts from the db
      */
-    private fun populatePostsList(text : String, searchRadius : Int, postsLoaded : PostsCallback)
+    private fun populatePostsList(text : String, searchRadius : Int)
     {
         this.posts.clear()
 
@@ -191,18 +172,27 @@ class SearchFragment : Fragment()
 
                     posts.add(model)
                 }
-                postsLoaded.onCallback(posts)
+
+                val postsAdapter = MainPostAdapter(requireContext(), posts)
+                postsList?.adapter = postsAdapter
+
+                postsAdapter?.onItemClick = { post ->
+                    val selectedItem = post as PostModel
+                    val bundle = Bundle()
+                    bundle.putString("postId", selectedItem.id)
+
+                    val detailsView = DetailsViewFragment()
+                    detailsView.arguments = bundle
+                    val transaction = fragmentManager?.beginTransaction()
+                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    transaction?.replace(R.id.container, detailsView)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                }
             }
         }.addOnFailureListener {  exception ->
             Toast.makeText(activity?.baseContext, exception.localizedMessage,
             Toast.LENGTH_SHORT).show()
         }
     }
-}
-
-/**
- * Callback used to know when all posts have been loaded
- */
-interface PostsCallback {
-    fun onCallback(value: ArrayList<PostModel>)
 }
