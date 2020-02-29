@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -53,11 +54,13 @@ class ChatView : Fragment()
     {
         // Inflate the layout for this fragment
         var view =  inflater.inflate(R.layout.fragment_chat_view, container, false)
+        view?.findViewById<TextView>(R.id.title)?.text = arguments?.getString("title").toString()
 
         messagesList = view.findViewById(R.id.messages)
         val layoutMgr = LinearLayoutManager(requireContext())
         layoutMgr.stackFromEnd = true
         messagesList.layoutManager = layoutMgr
+
 
         messagesAdapter = MessagesAdapter(auth.currentUser?.uid.toString(), mutableListOf())
         messagesList.adapter = messagesAdapter

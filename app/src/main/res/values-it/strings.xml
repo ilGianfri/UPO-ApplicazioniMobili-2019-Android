@@ -44,4 +44,5 @@
     <string name="chat_send_message_placeholder">Scrivi il tuo messaggio..</string>
     <string name="send">Invia</string>
     <string name="chat_yourself_no">Non puoi chattare con te stesso!</string>
+    <string name="review_user">Recensisci utente</string>
 </resources>

@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
@@ -107,9 +108,9 @@ class SearchFragment : Fragment()
     /**
      * Performs a search
      */
-    private fun search(text : String = "", searchRadious : Int = 0)
+    private fun search(text : String = "", searchRadios : Int = 0)
     {
-        populatePostsList(text, searchRadious)
+        populatePostsList(text, searchRadios)
     }
 
     /**
@@ -176,10 +177,9 @@ class SearchFragment : Fragment()
                 val postsAdapter = MainPostAdapter(requireContext(), posts)
                 postsList?.adapter = postsAdapter
 
-                postsAdapter?.onItemClick = { post ->
-                    val selectedItem = post as PostModel
+                postsAdapter.onItemClick = { post ->
                     val bundle = Bundle()
-                    bundle.putString("postId", selectedItem.id)
+                    bundle.putString("postId", post.id)
 
                     val detailsView = DetailsViewFragment()
                     detailsView.arguments = bundle

@@ -6,8 +6,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragments.ChatView">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_below="@id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_margin="5dp"
+        android:id="@+id/reviewUser"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="@string/review_user" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages"
+        android:layout_below="@id/reviewUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"

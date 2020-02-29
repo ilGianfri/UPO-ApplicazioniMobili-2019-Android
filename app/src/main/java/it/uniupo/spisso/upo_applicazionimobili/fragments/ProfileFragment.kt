@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MainPostAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.PostModel
-import java.lang.Exception
 
 /**
  * Fragment used to display the ads published by the current user
@@ -73,9 +71,8 @@ class ProfileFragment : Fragment()
                 postsList?.adapter = postsAdapter
 
                 postsAdapter?.onItemClick = { post ->
-                    val selectedItem = post
                     val bundle = Bundle()
-                    bundle.putString("postId", selectedItem.id)
+                    bundle.putString("postId", post.id)
 
                     val detailsView = DetailsViewFragment()
                     detailsView.arguments = bundle
