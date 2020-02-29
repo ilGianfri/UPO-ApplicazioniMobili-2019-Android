@@ -71,6 +71,20 @@ class ProfileFragment : Fragment()
 
                 val postsAdapter = MainPostAdapter(requireContext(), posts)
                 postsList?.adapter = postsAdapter
+
+                postsAdapter?.onItemClick = { post ->
+                    val selectedItem = post
+                    val bundle = Bundle()
+                    bundle.putString("postId", selectedItem.id)
+
+                    val detailsView = DetailsViewFragment()
+                    detailsView.arguments = bundle
+                    val transaction = fragmentManager?.beginTransaction()
+                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    transaction?.replace(R.id.container, detailsView)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                }
             }
         }.addOnFailureListener {  exception ->
             Toast.makeText(activity?.baseContext, exception.localizedMessage,

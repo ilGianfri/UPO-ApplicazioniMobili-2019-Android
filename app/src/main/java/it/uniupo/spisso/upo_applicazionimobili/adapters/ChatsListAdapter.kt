@@ -5,9 +5,9 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.models.ConversationModel
 import org.jetbrains.anko.doAsync
@@ -15,53 +15,47 @@ import org.jetbrains.anko.uiThread
 import java.net.URL
 
 
-class ChatsListAdapter(private val context: Context, private val conversations: ArrayList<ConversationModel>) : BaseAdapter()
+class ChatsListAdapter(private val context: Context, private val conversations: ArrayList<ConversationModel>) : RecyclerView.Adapter<ChatsListAdapter.ChatsViewHolder>()
 {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
+    var onItemClick: ((ConversationModel) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsViewHolder
     {
-        var view: View
-
-        if (convertView == null)
-        {
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = inflater.inflate(R.layout.chat_list_item_layout, null, true)
-
-            val imageView = view.findViewById<ImageView>(R.id.post_image)
-            val titleView = view.findViewById<TextView>(R.id.post_title)
-
-            doAsync {
-                val url = URL(conversations[position].imageUri)
-                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                uiThread {
-                    imageView.setImageBitmap(bmp)
-                }
-            }
-
-            titleView.text =  conversations[position].title
-
-//            val parser = SimpleDateFormat("yyyyMMdd_HH:mm:ss")
-//            val formatter = SimpleDateFormat("dd/MM")
-//            postedOnView.text = formatter.format(parser.parse(posts[position].postedOn))
-        }
-        else
-            view = convertView
-
-        return view
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.postitem_layout, parent, false)
+        return ChatsViewHolder(view)
     }
 
-    override fun getItem(position: Int): Any
-    {
-        return conversations[position]
-    }
-
-    override fun getItemId(position: Int): Long
-    {
-        return 0
-    }
-
-    override fun getCount(): Int
+    override fun getItemCount(): Int
     {
         return conversations.size
     }
 
+    override fun onBindViewHolder(holder: ChatsViewHolder, position: Int)
+    {
+        holder.bind(conversations[position])
+    }
+
+    inner class ChatsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    {
+        private val imageView = itemView.findViewById<ImageView>(R.id.post_image)
+        private val titleView = itemView.findViewById<TextView>(R.id.post_title)
+
+        init
+        {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(conversations[adapterPosition])
+            }
+        }
+
+        fun bind(conversation: ConversationModel)
+        {
+            doAsync {
+                val url = URL(conversation.imageUri)
+                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                uiThread { imageView.setImageBitmap(bmp) }
+            }
+
+            titleView.text =  conversation.title
+        }
+    }
 }
