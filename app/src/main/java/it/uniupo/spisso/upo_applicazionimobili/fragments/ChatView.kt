@@ -67,7 +67,7 @@ class ChatView : Fragment()
 
         fetchMessages();
 
-        view.findViewById<EditText>(R.id.enter_message).setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        view.findViewById<EditText>(R.id.enter_message).setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND)
             {
                 sendMessage()
