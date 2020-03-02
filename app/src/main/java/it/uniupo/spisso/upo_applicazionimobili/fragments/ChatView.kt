@@ -85,7 +85,7 @@ class ChatView : Fragment()
                     "rating" to rating.rating,
                     "Item" to arguments?.getString("title").toString()
                 )
-                db.collection("user_reviews").document(receiverId).collection("reviews").document(auth.currentUser?.uid.toString())
+                db.collection("user_reviews").document(receiverId).collection("reviews").document(UUID.randomUUID().toString())
                     .set(data as Map<String, Any>)
 
                 dialog.dismiss()
