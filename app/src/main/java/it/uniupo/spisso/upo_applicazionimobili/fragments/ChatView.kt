@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.adapters.MessagesAdapter
 import it.uniupo.spisso.upo_applicazionimobili.models.BaseMessage
+import kotlinx.android.synthetic.main.fragment_publish.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,6 +73,24 @@ class ChatView : Fragment()
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(true)
             dialog.setContentView(R.layout.review_user_dialog_layout)
+
+            val rateBtn = dialog.findViewById(R.id.reviewUser) as MaterialButton
+            val description = dialog.findViewById(R.id.textBox) as TextInputEditText
+            val rating = dialog.findViewById(R.id.rating) as RatingBar
+            rateBtn.setOnClickListener {
+                val data = hashMapOf(
+                    "reviewerId" to auth.currentUser?.uid.toString(),
+                    "Description" to description.text.toString(),
+                    "PostedOn" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date()),
+                    "rating" to rating.rating,
+                    "Item" to arguments?.getString("title").toString()
+                )
+                db.collection("user_reviews").document(receiverId).collection("reviews").document(auth.currentUser?.uid.toString())
+                    .set(data as Map<String, Any>)
+
+                dialog.dismiss()
+            }
+
             dialog.show()
         }
 
