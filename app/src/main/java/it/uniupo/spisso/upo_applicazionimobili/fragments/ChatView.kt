@@ -1,9 +1,11 @@
 package it.uniupo.spisso.upo_applicazionimobili.fragments
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -12,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
@@ -61,6 +64,14 @@ class ChatView : Fragment()
         layoutMgr.stackFromEnd = true
         messagesList.layoutManager = layoutMgr
 
+        view?.findViewById<MaterialButton>(R.id.reviewUser)?.setOnClickListener{
+            val dialog = Dialog(requireContext())
+            dialog.window?.setLayout(450, 300)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.review_user_dialog_layout)
+            dialog.show()
+        }
 
         messagesAdapter = MessagesAdapter(auth.currentUser?.uid.toString(), mutableListOf())
         messagesList.adapter = messagesAdapter
@@ -81,7 +92,8 @@ class ChatView : Fragment()
         return view
     }
 
-    private fun fetchMessages() {
+    private fun fetchMessages()
+    {
         val collection = db.collection("chats").document(chatID).collection("messages")
             .orderBy("dateTime", Query.Direction.ASCENDING)
 
