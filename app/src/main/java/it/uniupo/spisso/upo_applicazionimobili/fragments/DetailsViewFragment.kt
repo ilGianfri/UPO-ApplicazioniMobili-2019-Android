@@ -51,6 +51,12 @@ class DetailsViewFragment : Fragment()
 
         getItemDetails(itemID.toString())
 
+
+        view.findViewById<MaterialButton>(R.id.delete_post).setOnClickListener {
+            if (currentItem.userId == auth.currentUser?.uid.toString())
+                db.collection("chats").document(currentItem.id).delete()
+        }
+
         view.findViewById<MaterialButton>(R.id.messageUserBtn).setOnClickListener {
             if (auth.currentUser?.uid.toString() == currentItem.userId)
             {
@@ -67,6 +73,7 @@ class DetailsViewFragment : Fragment()
 
             val id = UUID.randomUUID().toString()
 
+            //TODO
             db.collection("chats").whereEqualTo("itemId", currentItem.id).get().addOnCompleteListener { task ->
                 if (task.isSuccessful)
                 {

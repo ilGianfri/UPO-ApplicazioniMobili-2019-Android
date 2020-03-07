@@ -60,16 +60,16 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/cancel"-->
-<!--            android:layout_alignParentTop="false"-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="0.5"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:textColor="@color/colorAccent"-->
-<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--            android:text="@string/back_button_publish"/>-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_post"
+            android:layout_alignParentTop="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorAccent"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:text="@string/delete_post"/>
 
         <com.google.android.material.button.MaterialButton
             android:layout_alignParentBottom="true"
