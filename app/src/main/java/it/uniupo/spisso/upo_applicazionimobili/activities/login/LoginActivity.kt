@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity()
         //Set activity title and enable back button
         val actionBar = supportActionBar
         actionBar?.title = getString(R.string.login_title)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
 
         login_button.setOnClickListener{loginClick()}
         signup_button.setOnClickListener{signupClick()}
@@ -63,6 +63,6 @@ class LoginActivity : AppCompatActivity()
     {
         val intent = Intent(this, CreateAccountActivity::class.java)
         startActivity(intent)
-        finish()
+        //finish()
     }
 }

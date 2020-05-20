@@ -24,8 +24,11 @@ class CreateAccountActivity : AppCompatActivity()
         setContentView(R.layout.activity_create_account)
         auth = FirebaseAuth.getInstance()
 
+        val actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
         /**
-         * Realtime password check. Disables signup button if password is too weak
+         * Realtime password check. Disables sign-up button if password is too weak
          */
         passwordBox.addTextChangedListener(object : TextWatcher
         {
@@ -48,7 +51,16 @@ class CreateAccountActivity : AppCompatActivity()
     }
 
     /**
-     * Handles the signup click button
+     * Handles back button press
+     */
+    override fun onSupportNavigateUp(): Boolean
+    {
+        onBackPressed()
+        return true
+    }
+
+    /**
+     * Handles the sign-up click button
      */
     private fun signupClick()
     {
