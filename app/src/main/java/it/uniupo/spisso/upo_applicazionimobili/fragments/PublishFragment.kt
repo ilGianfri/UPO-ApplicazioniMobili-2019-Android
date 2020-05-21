@@ -237,8 +237,8 @@ class PublishFragment : Fragment()
         }
 
         //One text has not been filled
-        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty() || dateText.text.isNullOrEmpty()
-            //|| keywordsText.text.isNullOrEmpty()
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || dateText.text.isNullOrEmpty()
+            //|| keywordsText.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty()
         )
         {
             Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
@@ -264,7 +264,7 @@ class PublishFragment : Fragment()
 
         titleBox.isEnabled = false
         descriptionBox.isEnabled = false
-        displayedName.isEnabled = false
+        //displayedName.isEnabled = false
         dateText.isEnabled = false
 
         var keywords = titleBox.text.toString().split(" ").toMutableList()
@@ -280,7 +280,7 @@ class PublishFragment : Fragment()
             "ExpireDate" to dateText.text.toString(),
 //          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date()),
-            "UserSelectedDisplayName" to displayedName.text.toString(),
+//            "UserSelectedDisplayName" to displayedName.text.toString(),
             "ImageUri" to image.toString(),
             "Keywords" to keywords
         )
@@ -325,7 +325,7 @@ class PublishFragment : Fragment()
                 imagePath = data?.data
                 if (imagePath != null)
                 {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imagePath)
+                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imagePath)
                     //TODO Show preview here
                 }
             }
@@ -442,7 +442,7 @@ class PublishFragment : Fragment()
     private fun requestLocationPermission()
     {
         ActivityCompat.requestPermissions(
-            activity!!,
+            requireActivity(),
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             LOCATION_REQUEST_CODE
         )
