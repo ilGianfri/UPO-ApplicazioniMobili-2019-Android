@@ -15,9 +15,6 @@ class LoginActivity : AppCompatActivity()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        //Tells the activity to use DayNight theme
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
@@ -39,7 +36,7 @@ class LoginActivity : AppCompatActivity()
 
     private fun loginClick()
     {
-        if (usernameBox.text.toString() == "" && passwordBox.text.toString() == "")
+        if (usernameBox.text.toString().isNullOrEmpty() || passwordBox.text.toString().isNullOrEmpty())
         {
             Toast.makeText(baseContext, getString(R.string.credentials_empty),
                 Toast.LENGTH_SHORT).show()
