@@ -51,10 +51,11 @@ class DetailsViewFragment : Fragment()
 
         getItemDetails(itemID.toString())
 
-
         view.findViewById<MaterialButton>(R.id.delete_post).setOnClickListener {
             if (currentItem.userId == auth.currentUser?.uid.toString())
-                db.collection("chats").document(currentItem.id).delete()
+            {
+                db.collection("available_items").document(currentItem.id).delete().addOnSuccessListener { activity?.onBackPressed() }
+            }
         }
 
         view.findViewById<MaterialButton>(R.id.messageUserBtn).setOnClickListener {
