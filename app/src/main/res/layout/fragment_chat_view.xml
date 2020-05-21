@@ -12,24 +12,38 @@
         android:id="@+id/title"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"/>
 
-    <com.google.android.material.button.MaterialButton
+    <LinearLayout android:id="@+id/buttonsLayout"
         android:layout_below="@id/title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:layout_margin="5dp"
-        android:id="@+id/reviewUser"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="@string/review_user" />
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            android:id="@+id/reviewUser"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:text="@string/review_user" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            android:id="@+id/startLend"
+            android:text="@string/start_lend" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages"
-        android:layout_below="@id/reviewUser"
+        android:layout_below="@id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
@@ -45,15 +59,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/message_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/chat_send_message_placeholder"
             app:hintEnabled="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:layout_weight="3"
             app:endIconMode="custom"

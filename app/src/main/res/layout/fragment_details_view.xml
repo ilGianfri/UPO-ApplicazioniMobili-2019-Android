@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.DetailsViewFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -26,7 +26,7 @@
                 android:layout_below="@id/post_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"/>
 
@@ -62,7 +62,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_post"
-            android:layout_alignParentTop="false"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -72,7 +71,6 @@
             android:text="@string/delete_post"/>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_alignParentBottom="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"

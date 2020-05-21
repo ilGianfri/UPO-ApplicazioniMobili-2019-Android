@@ -48,4 +48,5 @@
     <string name="delete_post">Elimina post</string>
     <string name="city_name">Città</string>
     <string name="user_address">Indirizzo</string>
+    <string name="start_lend">Presta</string>
 </resources>

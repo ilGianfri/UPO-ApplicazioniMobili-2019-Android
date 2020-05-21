@@ -12,8 +12,6 @@
         app:lottie_rawRes="@raw/upload_success"
         app:lottie_loop="false"
         app:lottie_autoPlay="true"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:maxWidth="80dp"
         android:maxHeight="50dp"
         />
