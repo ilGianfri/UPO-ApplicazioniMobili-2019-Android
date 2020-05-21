@@ -91,6 +91,16 @@ class ChatView : Fragment()
                 dialog.dismiss()
             }
 
+            view?.findViewById<MaterialButton>(R.id.startLend)?.setOnClickListener{
+                val data = hashMapOf(
+                    "OwnerId" to auth.currentUser?.uid.toString(),
+                    "LendTo" to receiverId.toString(),
+                    "StartDate" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date())
+                )
+                db.collection("lend").document(receiverId).collection("lends").document(UUID.randomUUID().toString())
+                    .set(data as Map<String, Any>)
+            }
+
             dialog.show()
         }
 
@@ -99,6 +109,7 @@ class ChatView : Fragment()
 
         fetchMessages();
 
+        //Send message when enter is pressed
         view.findViewById<EditText>(R.id.enter_message).setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND)
             {

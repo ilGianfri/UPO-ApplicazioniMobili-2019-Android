@@ -136,6 +136,10 @@ class DetailsViewFragment : Fragment()
                     }
                 }
 
+                var deletebtn = view?.findViewById<MaterialButton>(R.id.delete_post)
+                if (auth.currentUser?.uid.toString() != currentItem.userId)
+                    deletebtn?.visibility = View.INVISIBLE
+
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     // Got last known location
