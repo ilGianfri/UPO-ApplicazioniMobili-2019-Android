@@ -66,8 +66,7 @@ class CreateAccountActivity : AppCompatActivity()
      */
     private fun signupClick()
     {
-        if (passwordBox.text.toString().length < 6)
-        {
+        if (passwordBox.text.toString().length < 6) {
             Toast.makeText(
                 baseContext, R.string.unsecure_password_error,
                 Toast.LENGTH_SHORT
@@ -75,8 +74,7 @@ class CreateAccountActivity : AppCompatActivity()
             return
         }
 
-        if (nameBox.text.isNullOrEmpty() || cityBox.text.isNullOrEmpty() || addressBox.text.isNullOrEmpty())
-        {
+        if (nameBox.text.isNullOrEmpty() || cityBox.text.isNullOrEmpty() || addressBox.text.isNullOrEmpty()) {
             Toast.makeText(
                 baseContext, R.string.please_fill_fields,
                 Toast.LENGTH_SHORT
@@ -93,23 +91,21 @@ class CreateAccountActivity : AppCompatActivity()
                 val user = auth.currentUser
 
                 val data = hashMapOf(
-                    "Name" to nameBox.text,
-                    "City" to cityBox.text,
-                    "Address" to addressBox.text
+                    "Name" to nameBox.text.toString(),
+                    "City" to cityBox.text.toString(),
+                    "Address" to addressBox.text.toString()
                 )
 
                 db.collection("user_details").document(auth.currentUser?.uid.toString().toString())
                     .set(data as Map<String, Any>)
                     .addOnSuccessListener {
-
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
                     .addOnFailureListener { exception ->
                         Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
                     }
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
             }.addOnFailureListener { exception ->
                 Toast.makeText(
                     baseContext, exception.localizedMessage,
