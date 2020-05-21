@@ -31,11 +31,17 @@ class MapViewFragment : Fragment()
     private val db = FirebaseFirestore.getInstance()
     private val LOCATION_REQUEST_CODE = 101
 
+    /**
+     * Requests to the system to get access to a specific permission
+     */
     private fun requestPermission(permissionType: String, requestCode: Int)
     {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permissionType), requestCode)
     }
 
+    /**
+     * Handle result from the permission dialog
+     */
     override fun onRequestPermissionsResult(requestCode: Int,  permissions: Array<String>, grantResults: IntArray)
     {
         when (requestCode)
@@ -49,7 +55,10 @@ class MapViewFragment : Fragment()
                     val permission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
 
                     if (permission == PackageManager.PERMISSION_GRANTED)
+                    {
                         googleMap?.isMyLocationEnabled = true
+                        showPositionOnMap()
+                    }
                     else
                         requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE)
                 }
@@ -57,43 +66,63 @@ class MapViewFragment : Fragment()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_map_view, container, false)
 
         mapV = view.findViewById(R.id.mapView)
         mapV.onCreate(savedInstanceState)
         mapV.onResume()
 
-        try
-        {
+        //Requests location permission if missing
+        requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE)
+
+        try {
             MapsInitializer.initialize(activity?.applicationContext)
+        } catch (e: Exception) {
         }
-        catch (e : Exception) {}
+
 
         mapV.getMapAsync { mMap ->
-
             googleMap = mMap
-            // For showing a move to my location button
-            googleMap?.isMyLocationEnabled = true
+            // To show a move to my location button
+            googleMap?.isMyLocationEnabled = false
 
             populateMap()
 
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    // Got last known location and zooms to it
-                    if (location != null)
-                    {
-                        val currentLocation = LatLng(location.latitude, location.longitude)
-                        val cameraPosition = CameraPosition.Builder().target(currentLocation).zoom(12f).build()
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-                    }
-                }
+            showPositionOnMap()
         }
+
         return view
     }
 
+    /**
+     * Shows the current user location on the map (handles missing permission)
+     */
+    private fun showPositionOnMap()
+    {
+        val permissionCheck = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            googleMap?.isMyLocationEnabled = true
+
+            val fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(requireActivity())
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                // Got last known location and zooms to it
+                if (location != null) {
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    val cameraPosition =
+                        CameraPosition.Builder().target(currentLocation).zoom(12f).build()
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                }
+            }
+        }
+    }
+
+    /**
+     * Populates the map with the available items
+     */
     private fun populateMap()
     {
         db.collection(getString(R.string.items_db_name)).get().addOnCompleteListener { task ->
