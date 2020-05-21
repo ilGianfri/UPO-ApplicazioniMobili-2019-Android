@@ -50,4 +50,6 @@
     <string name="chat_yourself_no">You can\'t chat with yourself!</string>
     <string name="review_user">Review this user</string>
     <string name="delete_post">Delete your post</string>
+    <string name="city_name">City</string>
+    <string name="user_address">Address</string>
 </resources>

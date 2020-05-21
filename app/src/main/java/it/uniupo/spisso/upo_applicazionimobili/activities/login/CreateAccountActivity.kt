@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_create_account.*
@@ -17,6 +18,7 @@ import java.util.regex.Pattern
 class CreateAccountActivity : AppCompatActivity()
 {
     private lateinit var auth: FirebaseAuth
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -66,21 +68,54 @@ class CreateAccountActivity : AppCompatActivity()
     {
         if (passwordBox.text.toString().length < 6)
         {
-            Toast.makeText(baseContext, R.string.unsecure_password_error,
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                baseContext, R.string.unsecure_password_error,
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
-        auth.createUserWithEmailAndPassword(usernameBox.text.toString(), passwordBox.text.toString())
-            .addOnSuccessListener (this) {
-                    // Sign in success
-                    val user = auth.currentUser
+        if (nameBox.text.isNullOrEmpty() || cityBox.text.isNullOrEmpty() || addressBox.text.isNullOrEmpty())
+        {
+            Toast.makeText(
+                baseContext, R.string.please_fill_fields,
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
 
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-            }.addOnFailureListener { exception -> Toast.makeText(baseContext, exception.localizedMessage,
-                Toast.LENGTH_SHORT).show() }
+        auth.createUserWithEmailAndPassword(
+            usernameBox.text.toString(),
+            passwordBox.text.toString()
+        )
+            .addOnSuccessListener(this) {
+                // Sign in success
+                val user = auth.currentUser
+
+                val data = hashMapOf(
+                    "Name" to nameBox.text,
+                    "City" to cityBox.text,
+                    "Address" to addressBox.text
+                )
+
+                db.collection("user_details").document(auth.currentUser?.uid.toString().toString())
+                    .set(data as Map<String, Any>)
+                    .addOnSuccessListener {
+
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
+                    }
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }.addOnFailureListener { exception ->
+                Toast.makeText(
+                    baseContext, exception.localizedMessage,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     /**

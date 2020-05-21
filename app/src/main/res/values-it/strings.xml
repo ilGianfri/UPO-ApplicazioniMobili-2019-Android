@@ -46,4 +46,6 @@
     <string name="chat_yourself_no">Non puoi chattare con te stesso!</string>
     <string name="review_user">Recensisci utente</string>
     <string name="delete_post">Elimina post</string>
+    <string name="city_name">Città</string>
+    <string name="user_address">Indirizzo</string>
 </resources>
