@@ -121,7 +121,7 @@ class DetailsViewFragment : Fragment()
                 currentItem.title = item.get("Title") as String
                 currentItem.description = item.get("Description") as String
                 currentItem.postedOn = item.get("PostedOn") as String
-                currentItem.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
+//                currentItem.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
                 currentItem.imageUri = item.get("ImageUri") as String
                 currentItem.coordinates = item.get("Coordinates") as ArrayList<Double>
                 currentItem.userId = item.get("UserId") as String

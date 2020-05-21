@@ -140,7 +140,7 @@ class SearchFragment : Fragment()
                     model.title = item.get("Title") as String
                     model.description = item.get("Description") as String
                     model.postedOn = item.get("PostedOn") as String
-                    model.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
+//                    model.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
                     model.imageUri = item.get("ImageUri") as String
                     model.coordinates = item.get("Coordinates") as ArrayList<Double>
 
