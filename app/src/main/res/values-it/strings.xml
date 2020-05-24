@@ -50,4 +50,8 @@
     <string name="user_address">Indirizzo</string>
     <string name="start_lend">Presta</string>
     <string name="chat_exists">Stai già chattando con questo utente riguardo questo oggetto</string>
+    <string name="lend_started">Prestito avviato! Incontra l\'utente come concordato</string>
+    <string name="end_lend">Concludi prestito</string>
+    <string name="lend_ended">Prestito concluso. Puoi recensire l\'utente se vuoi</string>
+    <string name="review_only_after_end">Puoi recensire l\'utente solo dopo che il prestito è concluso</string>
 </resources>

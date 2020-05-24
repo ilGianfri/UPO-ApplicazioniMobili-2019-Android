@@ -54,4 +54,8 @@
     <string name="user_address">Address</string>
     <string name="start_lend">Lend</string>
     <string name="chat_exists">You\'re chatting with this user about this item already</string>
+    <string name="lend_started">Lend started! Meet the other user as discussed</string>
+    <string name="end_lend">End lend</string>
+    <string name="lend_ended">Lend ended. You can review the user if you\'d like</string>
+    <string name="review_only_after_end">You can review this user only after the lend has ended</string>
 </resources>

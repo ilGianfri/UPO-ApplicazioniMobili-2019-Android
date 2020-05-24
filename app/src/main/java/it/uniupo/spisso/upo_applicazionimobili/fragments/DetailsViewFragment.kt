@@ -99,7 +99,8 @@ class DetailsViewFragment : Fragment()
                                 "users" to arrayListOf<String>(
                                     auth.currentUser?.uid.toString(),
                                     currentItem.userId
-                                )
+                                ),
+                                "ownerId" to currentItem.userId
                             )
 
                             //Random chat id
