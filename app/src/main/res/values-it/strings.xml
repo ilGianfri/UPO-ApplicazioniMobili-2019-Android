@@ -49,4 +49,5 @@
     <string name="city_name">Città</string>
     <string name="user_address">Indirizzo</string>
     <string name="start_lend">Presta</string>
+    <string name="chat_exists">Stai già chattando con questo utente riguardo questo oggetto</string>
 </resources>

@@ -51,59 +51,93 @@ class DetailsViewFragment : Fragment()
 
         getItemDetails(itemID.toString())
 
+        //Delete post button handler
         view.findViewById<MaterialButton>(R.id.delete_post).setOnClickListener {
+            //Check if it's owned by current user
             if (currentItem.userId == auth.currentUser?.uid.toString())
             {
                 db.collection("available_items").document(currentItem.id).delete().addOnSuccessListener { activity?.onBackPressed() }
             }
         }
 
+        //Message user button handler
         view.findViewById<MaterialButton>(R.id.messageUserBtn).setOnClickListener {
-            if (auth.currentUser?.uid.toString() == currentItem.userId)
-            {
-                Toast.makeText(requireContext(), R.string.chat_yourself_no, Toast.LENGTH_SHORT).show()
+            //Check if the user is trying to message himself - not allowed to
+            if (auth.currentUser?.uid.toString() == currentItem.userId) {
+                Toast.makeText(requireContext(), R.string.chat_yourself_no, Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
-            val data = hashMapOf(
-                "itemId" to currentItem.id,
-                "itemImage" to currentItem.imageUri,
-                "itemTitle" to currentItem.title,
-                "users" to arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId)
-            )
+            var chatexists = false
 
-            val id = UUID.randomUUID().toString()
+            //Gets all chats to check if there's an existing conversation regarding the same item with the same users
+            db.collection("chats").whereEqualTo("itemId", currentItem.id).get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful)
+                    {
+                        //Check if there's a conversation already
+                        loop@ for (item in task.result!!.documents) {
+                            val users = item.get("users") as ArrayList<String>
+                            if (users.isNotEmpty())
+                            {
+                                if (users[0] == currentItem.userId || users[1] == currentItem.userId) {
+                                    if (users[0] == currentItem.userId || users[1] == currentItem.userId) {
+                                        chatexists = true
+                                    }
+                                }
+                            }
+                        }
 
-            //TODO
-            db.collection("chats").whereEqualTo("itemId", currentItem.id).get().addOnCompleteListener { task ->
-                if (task.isSuccessful)
-                {
-                    //No results
-                    if (task.result!!.isEmpty)
-                        return@addOnCompleteListener
+                        //Creates a new chat if it doesn't exist already
+                        if (!chatexists)
+                        {
+                            val data = hashMapOf(
+                                "itemId" to currentItem.id,
+                                "itemImage" to currentItem.imageUri,
+                                "itemTitle" to currentItem.title,
+                                "users" to arrayListOf<String>(
+                                    auth.currentUser?.uid.toString(),
+                                    currentItem.userId
+                                )
+                            )
 
+                            val id = UUID.randomUUID().toString()
 
-                }
-            }
+                            db.collection("chats").document(id)
+                                .set(data as Map<String, Any>)
+                                .addOnSuccessListener {
 
-            db.collection("chats").document(id)
-                .set(data as Map<String, Any>)
-                .addOnSuccessListener {
-                    val bundle = Bundle()
-                    bundle.putString("chatId", id)
-                    bundle.putStringArrayList("users", arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId))
+                                    val bundle = Bundle()
+                                    bundle.putString("chatId", id)
+                                    bundle.putStringArrayList("users", arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId))
 
-                    val detailsView = ChatView()
-                    detailsView.arguments = bundle
-                    val transaction = fragmentManager?.beginTransaction()
-                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    transaction?.replace(R.id.container, detailsView)
-                    transaction?.addToBackStack(null)
-                    transaction?.commit()
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT)
-                        .show()
+                                    val detailsView = ChatView()
+                                    detailsView.arguments = bundle
+                                    val transaction = fragmentManager?.beginTransaction()
+                                    transaction?.setCustomAnimations(
+                                        android.R.animator.fade_in,
+                                        android.R.animator.fade_out
+                                    )
+                                    transaction?.replace(R.id.container, detailsView)
+                                    transaction?.addToBackStack(null)
+                                    transaction?.commit()
+                                }
+                                .addOnFailureListener { exception ->
+                                    Toast.makeText(
+                                        requireContext(),
+                                        exception.localizedMessage,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
+                        }
+                        else
+                        {
+                            Toast.makeText(requireContext(), R.string.chat_exists, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
                 }
         }
 
@@ -111,6 +145,9 @@ class DetailsViewFragment : Fragment()
         return view
     }
 
+    /**
+     * Gets the current item details
+     */
     private fun getItemDetails(itemId : String)
     {
         db.collection(dbName).document(itemId).get().addOnCompleteListener { task ->
@@ -121,7 +158,6 @@ class DetailsViewFragment : Fragment()
                 currentItem.title = item.get("Title") as String
                 currentItem.description = item.get("Description") as String
                 currentItem.postedOn = item.get("PostedOn") as String
-//                currentItem.userSelectedDisplayName = item.get("UserSelectedDisplayName") as String
                 currentItem.imageUri = item.get("ImageUri") as String
                 currentItem.coordinates = item.get("Coordinates") as ArrayList<Double>
                 currentItem.userId = item.get("UserId") as String

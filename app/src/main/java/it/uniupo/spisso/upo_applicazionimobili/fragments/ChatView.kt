@@ -60,7 +60,15 @@ class ChatView : Fragment()
     {
         // Inflate the layout for this fragment
         var view =  inflater.inflate(R.layout.fragment_chat_view, container, false)
-        view?.findViewById<TextView>(R.id.title)?.text = arguments?.getString("title").toString()
+
+        db.collection("user_details").document(receiverId).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful)
+                {
+                    if (task.result != null)
+                        view?.findViewById<TextView>(R.id.title)?.text = task.result!!.get("Name") as String
+                }
+            }
 
         messagesList = view.findViewById(R.id.messages)
         val layoutMgr = LinearLayoutManager(requireContext())

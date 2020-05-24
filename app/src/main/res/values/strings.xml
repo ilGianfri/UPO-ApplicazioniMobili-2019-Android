@@ -53,4 +53,5 @@
     <string name="city_name">City</string>
     <string name="user_address">Address</string>
     <string name="start_lend">Lend</string>
+    <string name="chat_exists">You\'re chatting with this user about this item already</string>
 </resources>
