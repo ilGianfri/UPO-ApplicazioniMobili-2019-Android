@@ -34,8 +34,12 @@ class LoginActivity : AppCompatActivity()
         return super.onSupportNavigateUp()
     }
 
+    /**
+     * Handles the login button click
+     */
     private fun loginClick()
     {
+        //Verifies that credentials are valid
         if (usernameBox.text.toString().isNullOrEmpty() || passwordBox.text.toString().isNullOrEmpty())
         {
             Toast.makeText(baseContext, getString(R.string.credentials_empty),
@@ -43,6 +47,7 @@ class LoginActivity : AppCompatActivity()
             return
         }
 
+        //Tries to login, display error if something wrong
         auth.signInWithEmailAndPassword(usernameBox.text.toString(), passwordBox.text.toString())
             .addOnSuccessListener (this)
             {
@@ -56,10 +61,10 @@ class LoginActivity : AppCompatActivity()
                 Toast.LENGTH_SHORT).show() }
     }
 
+    //Handle sign-up button click
     private fun signupClick()
     {
         val intent = Intent(this, CreateAccountActivity::class.java)
         startActivity(intent)
-        //finish()
     }
 }

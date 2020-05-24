@@ -102,40 +102,33 @@ class DetailsViewFragment : Fragment()
                                 )
                             )
 
+                            //Random chat id
                             val id = UUID.randomUUID().toString()
 
+                            //Creates the chat
                             db.collection("chats").document(id)
                                 .set(data as Map<String, Any>)
                                 .addOnSuccessListener {
-
+                                    //Bundle with details to pass to the chatView
                                     val bundle = Bundle()
                                     bundle.putString("chatId", id)
                                     bundle.putStringArrayList("users", arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId))
 
-                                    val detailsView = ChatView()
-                                    detailsView.arguments = bundle
+                                    val chatView = ChatView()
+                                    chatView.arguments = bundle
                                     val transaction = fragmentManager?.beginTransaction()
-                                    transaction?.setCustomAnimations(
-                                        android.R.animator.fade_in,
-                                        android.R.animator.fade_out
-                                    )
-                                    transaction?.replace(R.id.container, detailsView)
+                                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                                    transaction?.replace(R.id.container, chatView)
                                     transaction?.addToBackStack(null)
                                     transaction?.commit()
                                 }
                                 .addOnFailureListener { exception ->
-                                    Toast.makeText(
-                                        requireContext(),
-                                        exception.localizedMessage,
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
+                                    Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT).show()
                                 }
                         }
                         else
                         {
-                            Toast.makeText(requireContext(), R.string.chat_exists, Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(requireContext(), R.string.chat_exists, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -154,38 +147,43 @@ class DetailsViewFragment : Fragment()
             if (task.isSuccessful)
             {
                 val item = task.result
-                currentItem = PostModel(item!!.id)
-                currentItem.title = item.get("Title") as String
-                currentItem.description = item.get("Description") as String
-                currentItem.postedOn = item.get("PostedOn") as String
-                currentItem.imageUri = item.get("ImageUri") as String
-                currentItem.coordinates = item.get("Coordinates") as ArrayList<Double>
-                currentItem.userId = item.get("UserId") as String
+                if (item != null)
+                {
+                    currentItem = PostModel(item!!.id)
+                    currentItem.title = item.get("Title") as String
+                    currentItem.description = item.get("Description") as String
+                    currentItem.postedOn = item.get("PostedOn") as String
+                    currentItem.imageUri = item.get("ImageUri") as String
+                    currentItem.coordinates = item.get("Coordinates") as ArrayList<Double>
+                    currentItem.userId = item.get("UserId") as String
 
-                doAsync {
-                    val url = URL(currentItem.imageUri)
-                    val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    uiThread {
-                        post_image.setImageBitmap(bmp)
-                        post_title.text = currentItem.title
-                        post_description.text = currentItem.description
+                    doAsync {
+                        val url = URL(currentItem.imageUri)
+                        val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                        uiThread {
+                            post_image.setImageBitmap(bmp)
+                            post_title.text = currentItem.title
+                            post_description.text = currentItem.description
+                        }
                     }
-                }
 
-                var deletebtn = view?.findViewById<MaterialButton>(R.id.delete_post)
-                if (auth.currentUser?.uid.toString() != currentItem.userId)
-                    deletebtn?.visibility = View.INVISIBLE
+                    var deletebtn = view?.findViewById<MaterialButton>(R.id.delete_post)
+                    if (auth.currentUser?.uid.toString() != currentItem.userId)
+                        deletebtn?.visibility = View.INVISIBLE
 
-                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    // Got last known location
-                    if (location != null)
-                    {
-                        var currentLocation = location
-                        val itemLoc = Location("")
-                        itemLoc.latitude = currentItem.coordinates[0]
-                        itemLoc.longitude = currentItem.coordinates[1]
-                        post_distance.text = getString(R.string.details_distance) + (currentLocation?.distanceTo(itemLoc)/1000).roundToInt() + " km"
+                    // Calculates the distance from the item
+                    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+                    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                        // Got last known location
+                        if (location != null)
+                        {
+                            var currentLocation = location
+                            val itemLoc = Location("")
+                            itemLoc.latitude = currentItem.coordinates[0]
+                            itemLoc.longitude = currentItem.coordinates[1]
+                            post_distance.text =
+                                getString(R.string.details_distance) + (currentLocation?.distanceTo(itemLoc) / 1000).roundToInt() + " km"
+                        }
                     }
                 }
             }

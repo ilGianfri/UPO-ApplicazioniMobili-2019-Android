@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Goes to the login page if there's no user signed in
         if (FirebaseAuth.getInstance().currentUser == null)
         {
             val intent = Intent(this, LoginActivity::class.java)

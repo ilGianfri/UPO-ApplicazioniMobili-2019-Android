@@ -43,6 +43,9 @@ class MessagesFragment : Fragment()
         return view
     }
 
+    /**
+     * Gets all chats for the current users
+     */
     private fun getChatsList()
     {
         db.collection("chats").whereArrayContains("users", auth.uid.toString()).get().addOnCompleteListener { task ->

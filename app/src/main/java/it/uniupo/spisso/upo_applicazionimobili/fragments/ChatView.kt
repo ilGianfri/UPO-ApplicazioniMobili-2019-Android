@@ -44,6 +44,7 @@ class ChatView : Fragment()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        //Populates the variables with data passed from navigation
         chatID = arguments?.getString("chatId").toString()
         val users = arguments?.getStringArrayList("users")
         users?.remove(auth.currentUser?.uid.toString())
@@ -61,6 +62,7 @@ class ChatView : Fragment()
         // Inflate the layout for this fragment
         var view =  inflater.inflate(R.layout.fragment_chat_view, container, false)
 
+        //Gets the other users details (we just need the name)
         db.collection("user_details").document(receiverId).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful)
@@ -70,11 +72,13 @@ class ChatView : Fragment()
                 }
             }
 
+        //Sets the messagesList layout
         messagesList = view.findViewById(R.id.messages)
         val layoutMgr = LinearLayoutManager(requireContext())
         layoutMgr.stackFromEnd = true
         messagesList.layoutManager = layoutMgr
 
+        //Handles review user button click
         view?.findViewById<MaterialButton>(R.id.reviewUser)?.setOnClickListener{
             val dialog = Dialog(requireContext())
             dialog.window?.setLayout(450, 300)
@@ -132,6 +136,9 @@ class ChatView : Fragment()
         return view
     }
 
+    /**
+     * Fetches all the messages from the current conversation
+     */
     private fun fetchMessages()
     {
         val collection = db.collection("chats").document(chatID).collection("messages")
@@ -159,6 +166,9 @@ class ChatView : Fragment()
         }
     }
 
+    /**
+     * Sends the message
+     */
     private fun sendMessage()
     {
         //Create a new message with a random identifier
@@ -185,6 +195,9 @@ class ChatView : Fragment()
             .addOnFailureListener { exception -> Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_SHORT).show() }
     }
 
+    /**
+     * Scrolls the messagesList to the bottom
+     */
     private fun scrollToBottom()
     {
         messagesList.scrollToPosition(messagesAdapter.itemCount - 1)

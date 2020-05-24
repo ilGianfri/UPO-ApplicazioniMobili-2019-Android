@@ -68,7 +68,7 @@ class SearchFragment : Fragment()
         //Handle floating button click (new post)
         view?.findViewById<FloatingActionButton>(R.id.publishButton)?.setOnClickListener{
             val publishFragment = PublishFragment()
-            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.animator.enter_from_bottom, android.R.animator.fade_out)
             transaction.replace(R.id.container, publishFragment)
             transaction.addToBackStack(null)
@@ -78,7 +78,7 @@ class SearchFragment : Fragment()
         //Handle map button click
         view?.findViewById<Button>(R.id.mapview_btn)?.setOnClickListener{
             val fragment = MapViewFragment()
-            val fragmentManager = activity!!.supportFragmentManager
+            val fragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.replace(R.id.container, fragment)
             fragmentTransaction.addToBackStack(null)
