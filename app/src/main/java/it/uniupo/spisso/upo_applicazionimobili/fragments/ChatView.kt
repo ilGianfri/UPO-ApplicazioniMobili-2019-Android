@@ -253,8 +253,6 @@ class ChatView : Fragment()
         db.collection("chats").document(chatID).collection("messages").document(textMessage.id)
             .set(data as Map<String, Any>)
             .addOnSuccessListener {
-
-                //messagesAdapter.appendMessage(textMessage)
                 scrollToBottom()
                 view?.findViewById<EditText>(R.id.enter_message)?.text?.clear()
             }

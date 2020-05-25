@@ -71,30 +71,6 @@ class PublishFragment : Fragment()
             }
         }
 
-//        val keywords = view.findViewById<TextInputEditText>(R.id.keywordsText)
-//        keywords.addTextChangedListener(object : TextWatcher
-//        {
-//            //Check for not allowed stuff (only , is ok)
-//            override fun afterTextChanged(s: Editable?)
-//            {
-//                val pattern: Pattern
-//                val matcher: Matcher
-//                val passwordPattern =
-//                    "[\$&+:;=?@#|'<>.^*()%!-]"
-//                pattern = Pattern.compile(passwordPattern)
-//                matcher = pattern.matcher(s.toString())
-//
-//                if (matcher.matches())
-//                    keywords.error = getString(R.string.keywords)
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//        })
-
         //Loads categories based on current language
         loadCategories(Locale.getDefault().language, object : CategoriesCallback
         {
@@ -236,10 +212,8 @@ class PublishFragment : Fragment()
             return
         }
 
-        //One text has not been filled
-        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || dateText.text.isNullOrEmpty()
-            //|| keywordsText.text.isNullOrEmpty() || displayedName.text.isNullOrEmpty()
-        )
+        //One text field has not been filled
+        if (titleBox.text.isNullOrEmpty() || descriptionBox.text.isNullOrEmpty() || dateText.text.isNullOrEmpty())
         {
             Toast.makeText(activity?.baseContext, getString(R.string.please_fill_fields),
                 Toast.LENGTH_SHORT).show()
@@ -264,7 +238,6 @@ class PublishFragment : Fragment()
 
         titleBox.isEnabled = false
         descriptionBox.isEnabled = false
-        //displayedName.isEnabled = false
         dateText.isEnabled = false
 
         var keywords = titleBox.text.toString().split(" ").toMutableList()
@@ -278,9 +251,7 @@ class PublishFragment : Fragment()
             "Category" to categoriesList[selectedCategory],
             "Coordinates" to doubleArrayOf(userLocation.latitude, userLocation.longitude).toList(),
             "ExpireDate" to dateText.text.toString(),
-//          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date()),
-//            "UserSelectedDisplayName" to displayedName.text.toString(),
             "ImageUri" to image.toString(),
             "Keywords" to keywords
         )

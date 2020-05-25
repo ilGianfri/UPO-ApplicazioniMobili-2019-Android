@@ -19,6 +19,7 @@ import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
 import it.uniupo.spisso.upo_applicazionimobili.fragments.*
 import it.uniupo.spisso.upo_applicazionimobili.models.BaseMessage
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity()
 {
     private var bottomNavigation: BottomNavigationView? = null
@@ -87,33 +88,6 @@ class MainActivity : AppCompatActivity()
                 return@OnNavigationItemSelectedListener true
             }
 
-            //Saved posts
-
-//            R.id.action_menu_saved -> {
-//                val savedFragment = SavedFragment()
-//                openFragment(savedFragment)
-//                return@OnNavigationItemSelectedListener true
-//            }
-
-            //Publish page
-
-//            R.id.action_menu_add -> {
-//                val auth = FirebaseAuth.getInstance()
-//                if (auth.currentUser != null) {
-//                    val publishFragment = PublishFragment()
-//                    val transaction = supportFragmentManager.beginTransaction()
-//                    transaction.replace(R.id.container, publishFragment)
-//                    transaction.addToBackStack(null)
-//                    transaction.commit()
-//                    return@OnNavigationItemSelectedListener true
-//                }
-//                else
-//                {
-//                    Toast.makeText(baseContext, getString(R.string.login_required_post),
-//                        Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
             //Messages
             R.id.action_menu_messages -> {
                 val messagesFragment = MessagesFragment()
@@ -137,7 +111,6 @@ class MainActivity : AppCompatActivity()
     {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
-        //transaction.addToBackStack(null)
         transaction.commit()
     }
 }

@@ -52,7 +52,6 @@ class LoginActivity : AppCompatActivity()
             .addOnSuccessListener (this)
             {
                     // Sign in success
-                    //val user = auth.currentUser
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
