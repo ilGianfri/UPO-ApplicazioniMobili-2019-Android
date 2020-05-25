@@ -56,7 +56,7 @@ class MapViewFragment : Fragment()
 
                     if (permission == PackageManager.PERMISSION_GRANTED)
                     {
-                        googleMap?.isMyLocationEnabled = true
+                        googleMap.isMyLocationEnabled = true
                         showPositionOnMap()
                     }
                     else
@@ -85,7 +85,7 @@ class MapViewFragment : Fragment()
         mapV.getMapAsync { mMap ->
             googleMap = mMap
             // To show a move to my location button
-            googleMap?.isMyLocationEnabled = false
+            googleMap.isMyLocationEnabled = false
 
             populateMap()
 
@@ -103,7 +103,7 @@ class MapViewFragment : Fragment()
         val permissionCheck = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            googleMap?.isMyLocationEnabled = true
+            googleMap.isMyLocationEnabled = true
 
             val fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(requireActivity())

@@ -70,7 +70,7 @@ class ProfileFragment : Fragment()
                 val postsAdapter = MainPostAdapter(requireContext(), posts)
                 postsList?.adapter = postsAdapter
 
-                postsAdapter?.onItemClick = { post ->
+                postsAdapter.onItemClick = { post ->
                     val bundle = Bundle()
                     bundle.putString("postId", post.id)
 

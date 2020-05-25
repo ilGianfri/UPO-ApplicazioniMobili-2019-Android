@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity()
 
     override fun onSupportNavigateUp(): Boolean
     {
-        this?.onBackPressed()
+        this.onBackPressed()
         return super.onSupportNavigateUp()
     }
 

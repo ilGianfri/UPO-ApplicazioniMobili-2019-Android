@@ -130,7 +130,7 @@ class PublishFragment : Fragment()
         }
 
         val publishButton = view.findViewById<Button>(R.id.publishButton)
-        publishButton.setOnClickListener { view ->
+        publishButton.setOnClickListener { _ ->
             publishClick()
         }
 
@@ -149,7 +149,7 @@ class PublishFragment : Fragment()
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             var mon : String = monthOfYear.toString()
             if (mon.length < 2)
                 mon = "0$monthOfYear"
@@ -229,7 +229,7 @@ class PublishFragment : Fragment()
     private fun publishPost(userLocation : Location?, image : Uri?)
     {
         //No location has been acquired
-        if (userLocation == null || userLocation?.latitude == null || userLocation?.longitude == null)
+        if (userLocation == null)
         {
             Toast.makeText(activity?.baseContext, getString(R.string.missing_location),
                 Toast.LENGTH_SHORT).show()
@@ -276,7 +276,7 @@ class PublishFragment : Fragment()
             "Title" to titleBox.text.toString(),
             "Description" to descriptionBox.text.toString(),
             "Category" to categoriesList[selectedCategory],
-            "Coordinates" to doubleArrayOf(userLocation!!.latitude, userLocation!!.longitude).toList(),
+            "Coordinates" to doubleArrayOf(userLocation.latitude, userLocation.longitude).toList(),
             "ExpireDate" to dateText.text.toString(),
 //          "Price" to priceText.text.toString().toLong(),
             "PostedOn" to SimpleDateFormat("yyyyMMdd_HH:mm:ss").format(Date()),
@@ -322,7 +322,7 @@ class PublishFragment : Fragment()
 
             try
             {
-                imagePath = data?.data
+                imagePath = data.data
                 if (imagePath != null)
                 {
                     val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imagePath)
@@ -376,7 +376,7 @@ class PublishFragment : Fragment()
         val pathRef = storage.reference.child("uploaded_images/${UUID.randomUUID()}")
 
         //Upload from given image path
-        val uploadTask = pathRef?.putFile(filePath)
+        val uploadTask = pathRef.putFile(filePath)
 
         //Handling of the upload task
         uploadTask.continueWithTask { task ->

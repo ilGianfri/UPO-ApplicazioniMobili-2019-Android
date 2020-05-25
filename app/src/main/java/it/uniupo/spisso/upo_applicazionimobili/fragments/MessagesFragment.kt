@@ -68,7 +68,7 @@ class MessagesFragment : Fragment()
                 val conversationsAdapter = ChatsListAdapter(requireContext(), conversations)
                 messagesList?.adapter = conversationsAdapter
 
-                conversationsAdapter?.onItemClick = { message ->
+                conversationsAdapter.onItemClick = { message ->
                     val bundle = Bundle()
                     bundle.putString("chatId", message.id)
                     bundle.putString("title", message.title)

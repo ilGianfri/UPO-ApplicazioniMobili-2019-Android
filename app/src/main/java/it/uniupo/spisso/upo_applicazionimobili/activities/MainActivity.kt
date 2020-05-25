@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity()
             val notConnected = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)
             if (notConnected)
             {
-                val intent = Intent(context, NoConnectivityActivity::class.java)
-                startActivity(intent)
+                val newIntent = Intent(context, NoConnectivityActivity::class.java)
+                startActivity(newIntent)
             }
         }
     }

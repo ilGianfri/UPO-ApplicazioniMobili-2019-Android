@@ -37,7 +37,7 @@ class MessagesAdapter(private val uid: String, private var messages: MutableList
 
     override fun getItemViewType(position: Int): Int
     {
-        return if (messages[position].senderId!!.contentEquals(uid))
+        return if (messages[position].senderId.contentEquals(uid))
         {
             SENT
         } else

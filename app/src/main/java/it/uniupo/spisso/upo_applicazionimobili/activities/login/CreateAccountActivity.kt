@@ -88,7 +88,8 @@ class CreateAccountActivity : AppCompatActivity()
         )
             .addOnSuccessListener(this) {
                 // Sign in success
-                val user = auth.currentUser
+
+                //val user = auth.currentUser
 
                 val data = hashMapOf(
                     "Name" to nameBox.text.toString(),

@@ -54,7 +54,7 @@ class ChatView : Fragment()
     override fun onDestroy()
     {
         super.onDestroy()
-        incomingMessages?.remove()
+        incomingMessages.remove()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -213,7 +213,7 @@ class ChatView : Fragment()
         incomingMessages = collection.addSnapshotListener { snapshots, e ->
             if (snapshots != null && e == null)
             {
-                for (dc in snapshots!!.documentChanges)
+                for (dc in snapshots.documentChanges)
                 {
                     when (dc.type)
                     {

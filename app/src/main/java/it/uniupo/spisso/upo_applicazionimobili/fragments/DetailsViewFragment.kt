@@ -150,7 +150,7 @@ class DetailsViewFragment : Fragment()
                 val item = task.result
                 if (item != null)
                 {
-                    currentItem = PostModel(item!!.id)
+                    currentItem = PostModel(item.id)
                     currentItem.title = item.get("Title") as String
                     currentItem.description = item.get("Description") as String
                     currentItem.postedOn = item.get("PostedOn") as String
@@ -183,7 +183,7 @@ class DetailsViewFragment : Fragment()
                             itemLoc.latitude = currentItem.coordinates[0]
                             itemLoc.longitude = currentItem.coordinates[1]
                             post_distance.text =
-                                getString(R.string.details_distance) + (currentLocation?.distanceTo(itemLoc) / 1000).roundToInt() + " km"
+                                getString(R.string.details_distance) + (currentLocation.distanceTo(itemLoc) / 1000).roundToInt() + " km"
                         }
                     }
                 }
