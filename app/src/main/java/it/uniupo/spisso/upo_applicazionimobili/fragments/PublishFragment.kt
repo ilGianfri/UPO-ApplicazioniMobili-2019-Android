@@ -105,11 +105,10 @@ class PublishFragment : Fragment()
                 showDatePickerDialog()
         }
 
-        val publishButton = view.findViewById<Button>(R.id.publishButton)
-        publishButton.setOnClickListener { _ ->
-            publishClick()
-        }
+        //Publish button click handler
+        view.findViewById<Button>(R.id.publishButton).setOnClickListener { _ -> publishClick() }
 
+        //Cancel button click handler
         view.findViewById<Button>(R.id.cancel)?.setOnClickListener{ activity?.onBackPressed() }
 
         return view
