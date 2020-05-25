@@ -110,7 +110,7 @@ class PublishFragment : Fragment()
             publishClick()
         }
 
-        //view.findViewById<Button>(R.id.publishButton)?.setOnClickListener{ activity?.onBackPressed() }
+        view.findViewById<Button>(R.id.cancel)?.setOnClickListener{ activity?.onBackPressed() }
 
         return view
     }
