@@ -320,19 +320,19 @@ class PublishFragment : Fragment()
             if(data == null || data.data == null)
                 return
 
-            try
-            {
-                imagePath = data.data
-                if (imagePath != null)
-                {
-                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imagePath)
-                    //TODO Show preview here
-                }
-            }
-            catch (e: IOException)
-            {
-
-            }
+//            try
+//            {
+//                imagePath = data.data
+//                if (imagePath != null)
+//                {
+//                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imagePath)
+//                    //TODO: Could be used to show preview here
+//                }
+//            }
+//            catch (e: IOException)
+//            {
+//
+//            }
         }
     }
 
@@ -345,7 +345,7 @@ class PublishFragment : Fragment()
             {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    //Permission granteed
+                    //Permission granted
                     selectGalleryImage()
                 }
                 else

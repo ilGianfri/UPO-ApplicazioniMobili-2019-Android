@@ -11,10 +11,6 @@
     <string name="menu_messages">Messages</string>
     <string name="menu_profile">Profile</string>
     <string name="authentication_failed_message">The credentials you\'ve provided did not work. Please try again.</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_hint">Search</string>
     <string name="unsecure_password_error">Password must contain at least 6 characters</string>
     <string name="publish_title">Publish new ad</string>
