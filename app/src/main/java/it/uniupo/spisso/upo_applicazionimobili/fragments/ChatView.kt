@@ -81,7 +81,7 @@ class ChatView : Fragment()
         db.collection("lends").document(auth.currentUser?.uid.toString() + receiverId).get().addOnCompleteListener{ task ->
             if (task.isSuccessful)
             {
-                if (task.result?.get("LendTo") != null) {
+                if (task.result?.get("EndDate") == "") {
                     lendBtn?.text = getString(R.string.end_lend)
                     activeLend = true
                 }
@@ -147,6 +147,9 @@ class ChatView : Fragment()
 
         Toast.makeText(requireContext(), R.string.lend_started, Toast.LENGTH_SHORT).show()
         activeLend = true
+
+        var lendBtn = view?.findViewById<MaterialButton>(R.id.startLend)
+        lendBtn?.text = getString(R.string.end_lend)
     }
 
     /**
@@ -160,6 +163,9 @@ class ChatView : Fragment()
 
         Toast.makeText(requireContext(), R.string.lend_ended, Toast.LENGTH_SHORT).show()
         activeLend = false
+
+        var lendBtn = view?.findViewById<MaterialButton>(R.id.startLend)
+        lendBtn?.text = getString(R.string.start_lend)
     }
 
     /**
@@ -170,7 +176,7 @@ class ChatView : Fragment()
         db.collection("lends").document(auth.currentUser?.uid.toString() + receiverId).get().addOnCompleteListener{ task ->
             if (task.isSuccessful)
             {
-                if (task.result?.get("EndDate") != null)
+                if (task.result?.get("EndDate") != "")
                 {
                     val dialog = Dialog(requireContext())
                     dialog.window?.setLayout(450, 300)
