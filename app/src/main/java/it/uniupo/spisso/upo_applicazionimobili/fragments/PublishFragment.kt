@@ -186,7 +186,7 @@ class PublishFragment : Fragment()
                 }
 
 
-                var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+                var fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 fusedLocationClient.lastLocation
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
