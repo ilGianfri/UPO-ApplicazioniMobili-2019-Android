@@ -176,7 +176,8 @@ class ChatView : Fragment()
         db.collection("lends").document(auth.currentUser?.uid.toString() + receiverId).get().addOnCompleteListener{ task ->
             if (task.isSuccessful)
             {
-                if (task.result?.get("EndDate") != "")
+                val endDate = task.result?.getString("EndDate")
+                if (!endDate.isNullOrEmpty())
                 {
                     val dialog = Dialog(requireContext())
                     dialog.window?.setLayout(450, 300)
