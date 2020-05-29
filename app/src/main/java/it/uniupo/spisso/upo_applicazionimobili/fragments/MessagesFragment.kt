@@ -62,6 +62,7 @@ class MessagesFragment : Fragment()
                     conversation.title = item.getString("itemTitle") as String
                     conversation.imageUri = item.getString("itemImage") as String
                     conversation.users = item.get("users") as ArrayList<String>
+                    conversation.ownerId = item.get("ownerId") as String
                     conversations.add(conversation)
                 }
 
@@ -73,6 +74,7 @@ class MessagesFragment : Fragment()
                     bundle.putString("chatId", message.id)
                     bundle.putString("title", message.title)
                     bundle.putStringArrayList("users", message.users)
+                    bundle.putString("ownerId", message.ownerId)
 
                     val detailsView = ChatView()
                     detailsView.arguments = bundle

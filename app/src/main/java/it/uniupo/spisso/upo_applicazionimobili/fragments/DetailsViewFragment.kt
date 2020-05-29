@@ -114,6 +114,7 @@ class DetailsViewFragment : Fragment()
                                     val bundle = Bundle()
                                     bundle.putString("chatId", id)
                                     bundle.putStringArrayList("users", arrayListOf<String>(auth.currentUser?.uid.toString(), currentItem.userId))
+                                    bundle.putString("ownerId", currentItem.userId)
 
                                     val chatView = ChatView()
                                     chatView.arguments = bundle

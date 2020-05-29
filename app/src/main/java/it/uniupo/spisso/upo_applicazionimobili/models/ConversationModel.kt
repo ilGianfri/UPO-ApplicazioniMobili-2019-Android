@@ -7,4 +7,5 @@ data class ConversationModel(val id: String)
     lateinit var title : String
     lateinit var latestMessage : String
     lateinit var users : ArrayList<String>
+    lateinit var ownerId : String
 }

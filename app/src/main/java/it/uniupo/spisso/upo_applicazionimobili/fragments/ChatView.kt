@@ -74,10 +74,6 @@ class ChatView : Fragment()
 
         var lendBtn = view?.findViewById<MaterialButton>(R.id.startLend)
 
-        //Lend button is only visible to the owner
-        if (auth.currentUser?.uid.toString() == ownerId)
-            lendBtn?.visibility = View.INVISIBLE
-
         db.collection("lends").document(auth.currentUser?.uid.toString() + receiverId).get().addOnCompleteListener{ task ->
             if (task.isSuccessful)
             {
@@ -116,6 +112,10 @@ class ChatView : Fragment()
         messagesList.adapter = messagesAdapter
 
         fetchMessages();
+
+        //Lend button is only visible to the owner
+        if (auth.currentUser?.uid.toString() != ownerId)
+            lendBtn?.visibility = View.INVISIBLE
 
         //Send message when enter is pressed
         view.findViewById<EditText>(R.id.enter_message).setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
