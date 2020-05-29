@@ -290,6 +290,7 @@ class PublishFragment : Fragment()
             if(data == null || data.data == null)
                 return
 
+            imagePath = data.data
 //            try
 //            {
 //                imagePath = data.data
@@ -336,7 +337,14 @@ class PublishFragment : Fragment()
     {
         //If no path was given, ends here
         if (filePath == null)
-            return null
+        {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.invalid_image),
+                Toast.LENGTH_SHORT
+            ).show()
+            return null;
+        }
 
         btn_choose_image.isEnabled = false
 

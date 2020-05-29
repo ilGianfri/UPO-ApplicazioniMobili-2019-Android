@@ -54,4 +54,5 @@
     <string name="end_lend">Concludi prestito</string>
     <string name="lend_ended">Prestito concluso. Puoi recensire l\'utente se vuoi</string>
     <string name="review_only_after_end">Puoi recensire l\'utente solo dopo che il prestito è concluso</string>
+    <string name="invalid_image">L\'immagine selezionata non è valida</string>
 </resources>

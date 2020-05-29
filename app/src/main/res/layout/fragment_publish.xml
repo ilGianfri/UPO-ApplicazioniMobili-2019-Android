@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:lines="8"
-                    android:gravity="top|left"
+                    android:gravity="top|start"
                     android:maxLines="12"/>
             </com.google.android.material.textfield.TextInputLayout>
 

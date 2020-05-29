@@ -54,4 +54,5 @@
     <string name="end_lend">End lend</string>
     <string name="lend_ended">Lend ended. You can review the user if you\'d like</string>
     <string name="review_only_after_end">You can review this user only after the lend has ended</string>
+    <string name="invalid_image">The selected image is not valid</string>
 </resources>
