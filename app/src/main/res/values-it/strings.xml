@@ -55,4 +55,6 @@
     <string name="lend_ended">Prestito concluso. Puoi recensire l\'utente se vuoi</string>
     <string name="review_only_after_end">Puoi recensire l\'utente solo dopo che il prestito è concluso</string>
     <string name="invalid_image">L\'immagine selezionata non è valida</string>
+    <string name="subtitle_profile">Qui puoi vedere tutti i tuoi post pubblicati o effettuare il logout</string>
+    <string name="logout_button">Disconnetti</string>
 </resources>
