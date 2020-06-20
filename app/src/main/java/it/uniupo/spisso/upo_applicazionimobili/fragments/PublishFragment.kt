@@ -239,9 +239,9 @@ class PublishFragment : Fragment()
         descriptionBox.isEnabled = false
         dateText.isEnabled = false
 
-        var keywords = titleBox.text.toString().split(" ").toMutableList()
+        var keywords = titleBox.text.toString().toLowerCase().split(" ").toMutableList()
         keywords.add("")
-        keywords.add(titleBox.text.toString())
+        keywords.add(titleBox.text.toString().toLowerCase())
 
         val data = hashMapOf(
             "UserId" to auth.currentUser?.uid.toString(),
