@@ -173,21 +173,27 @@ class SearchFragment : Fragment()
                     posts.add(model)
                 }
 
-                val postsAdapter = MainPostAdapter(requireContext(), posts)
-                postsList?.adapter = postsAdapter
+                try {
+                    val postsAdapter = MainPostAdapter(requireContext(), posts)
+                    postsList?.adapter = postsAdapter
 
-                postsAdapter.onItemClick = { post ->
-                    val bundle = Bundle()
-                    bundle.putString("postId", post.id)
+                    postsAdapter.onItemClick = { post ->
+                        val bundle = Bundle()
+                        bundle.putString("postId", post.id)
 
-                    val detailsView = DetailsViewFragment()
-                    detailsView.arguments = bundle
-                    val transaction = fragmentManager?.beginTransaction()
-                    transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    transaction?.replace(R.id.container, detailsView)
-                    transaction?.addToBackStack(null)
-                    transaction?.commit()
+                        val detailsView = DetailsViewFragment()
+                        detailsView.arguments = bundle
+                        val transaction = fragmentManager?.beginTransaction()
+                        transaction?.setCustomAnimations(
+                            android.R.animator.fade_in,
+                            android.R.animator.fade_out
+                        )
+                        transaction?.replace(R.id.container, detailsView)
+                        transaction?.addToBackStack(null)
+                        transaction?.commit()
+                    }
                 }
+                catch (e : Exception) {}
             }
         }.addOnFailureListener {  exception ->
             Toast.makeText(activity?.baseContext, exception.localizedMessage,

@@ -5,26 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import it.uniupo.spisso.upo_applicazionimobili.R
 import it.uniupo.spisso.upo_applicazionimobili.activities.login.LoginActivity
-import it.uniupo.spisso.upo_applicazionimobili.fragments.*
-import it.uniupo.spisso.upo_applicazionimobili.models.BaseMessage
+import it.uniupo.spisso.upo_applicazionimobili.fragments.MessagesFragment
+import it.uniupo.spisso.upo_applicazionimobili.fragments.ProfileFragment
+import it.uniupo.spisso.upo_applicazionimobili.fragments.SearchFragment
+
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity()
 {
     private var bottomNavigation: BottomNavigationView? = null
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onStart()
     {
