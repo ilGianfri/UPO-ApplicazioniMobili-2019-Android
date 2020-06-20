@@ -81,11 +81,8 @@ class DetailsViewFragment : Fragment()
                             val users = item.get("users") as ArrayList<String>
                             if (users.isNotEmpty())
                             {
-                                if (users[0] == currentItem.userId || users[1] == currentItem.userId) {
-                                    if (users[0] == currentItem.userId || users[1] == currentItem.userId) {
-                                        chatexists = true
-                                    }
-                                }
+                                if (users.contains(currentItem.userId) && users.contains(auth.uid))
+                                    chatexists = true
                             }
                         }
 
