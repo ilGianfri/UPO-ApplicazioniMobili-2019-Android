@@ -1,6 +1,6 @@
 # Applicazioni Mobili 2019/2020 Alessandria
 
-Gli studenti, singolarmente o a coppie, devo consegnare due progetti seguendo le modalità d'esame.
+Gli studenti, singolarmente o a coppie, devo consegnare 3 progetti seguendo le modalità d'esame.
 
 ## Progetto ANDROID
 
