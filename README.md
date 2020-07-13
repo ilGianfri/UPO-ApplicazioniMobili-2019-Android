@@ -2,6 +2,10 @@
 
 Gli studenti, singolarmente o a coppie, devo consegnare 3 progetti seguendo le modalità d'esame.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/ilgianfri/upo-applicazionimobili-2019-android/badge)](https://www.codefactor.io/repository/github/ilgianfri/upo-applicazionimobili-2019-android)
+![Last commit](https://img.shields.io/github/last-commit/ilGianfri/upo-applicazionimobili-2019-android.svg?style=popout-square)
+![License](https://img.shields.io/github/license/ilGianfri/upo-applicazionimobili-2019-android.svg?style=popout-square) 
+
 ## Progetto ANDROID
 
 Si tratta di realizzare una app per la condivisione di oggetti inutilizzati, le motivazioni alla base sono spiegati in calce. I requisiti per l'app sono i seguenti:
